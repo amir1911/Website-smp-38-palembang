@@ -6,61 +6,61 @@ use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class GuruPolicy
-{
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return $user->can('Guru');
-    }
+// class GuruPolicy
+// {
+//     /**
+//      * Determine whether the user can view any models.
+//      */
+//     public function viewAny(User $user): bool
+//     {
+//         return $user->can('Guru');
+//     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Guru $guru): bool
-    {
-        return false;
-    }
+//     /**
+//      * Determine whether the user can view the model.
+//      */
+//     public function view(User $user, Guru $guru): bool
+//     {
+//         return false;
+//     }
 
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-          return $user->can('Guru Create');
-    }
+//     /**
+//      * Determine whether the user can create models.
+//      */
+//     public function create(User $user): bool
+//     {
+//           return $user->can('Guru Create');
+//     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, Guru $guru): bool
-    {
-           return $user->can('Guru Edit');
-    }
+//     /**
+//      * Determine whether the user can update the model.
+//      */
+//     public function update(User $user, Guru $guru): bool
+//     {
+//            return $user->can('Guru Edit');
+//     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Guru $guru): bool
-    {
-          return $user->can('Guru Delete');
-    }
+//     /**
+//      * Determine whether the user can delete the model.
+//      */
+//     public function delete(User $user, Guru $guru): bool
+//     {
+//           return $user->can('Guru Delete');
+//     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Guru $guru): bool
-    {
-        return false;
-    }
+//     /**
+//      * Determine whether the user can restore the model.
+//      */
+//     public function restore(User $user, Guru $guru): bool
+//     {
+//         return false;
+//     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Guru $guru): bool
-    {
-        return false;
-    }
-}
+//     /**
+//      * Determine whether the user can permanently delete the model.
+//      */
+//     public function forceDelete(User $user, Guru $guru): bool
+//     {
+//         return false;
+//     }
+// }

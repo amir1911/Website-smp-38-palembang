@@ -3,14 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pengumuman;
+use App\Models\KategoriPengumuman;
 use Illuminate\Http\Request;
 
 class PengumumanController extends Controller
 {
     public function index()
     {
-        $pengumuman = Pengumuman::orderBy('tanggal', 'desc')->get();
-        return view('frontend.pengumuman', compact('pengumuman'));
+        // Pisahkan pengumuman berdasarkan ada atau tidaknya file PDF
+        $pengumumanPdf = Pengumuman::whereNotNull('file_pdf')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $pengumumanBiasa = Pengumuman::whereNull('file_pdf')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        // Ambil semua kategori untuk navigasi/filter
+        $kategoriList = KategoriPengumuman::all();
+
+        return view('frontend.pengumuman', compact('pengumumanPdf', 'pengumumanBiasa', 'kategoriList'));
     }
 
     public function show($id)
@@ -20,10 +32,22 @@ class PengumumanController extends Controller
     }
 
     public function byKategori($id)
-{
-    $kategori = \App\Models\KategoriPengumuman::findOrFail($id);
-    $pengumuman = \App\Models\Pengumuman::where('kategori_id', $id)->orderBy('tanggal', 'desc')->get();
+    {
+        $kategori = KategoriPengumuman::findOrFail($id);
 
-    return view('frontend.pengumuman', compact('pengumuman', 'kategori'));
-}
+        // Filter berdasarkan kategori yang dipilih
+        $pengumumanPdf = Pengumuman::where('kategori_id', $id)
+            ->whereNotNull('file_pdf')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $pengumumanBiasa = Pengumuman::where('kategori_id', $id)
+            ->whereNull('file_pdf')
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $kategoriList = KategoriPengumuman::all();
+
+        return view('frontend.pengumuman', compact('pengumumanPdf', 'pengumumanBiasa', 'kategori', 'kategoriList'));
+    }
 }

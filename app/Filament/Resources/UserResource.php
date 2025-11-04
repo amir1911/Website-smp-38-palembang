@@ -4,11 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
@@ -63,6 +65,9 @@ class UserResource extends Resource
 
     public static function table(Table $table): Table
     {
+            // ✅ Pastikan format waktu pakai Bahasa Indonesia
+    App::setLocale('id');
+    Carbon::setLocale('id');
         return $table
             ->modifyQueryUsing(function ($query) {
                 // ✅ Admin hanya bisa lihat dirinya sendiri
@@ -86,10 +91,25 @@ class UserResource extends Resource
                         'warning' => 'admin',
                     ]),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
-                    ->dateTime()
-                    ->sortable(),
+                   // ✅ Kolom waktu dibuat
+            Tables\Columns\TextColumn::make('created_at')
+                ->label('Dibuat Pada')
+                ->getStateUsing(function ($record) {
+                    return Carbon::parse($record->created_at)
+                         ->timezone(config('app.timezone'))
+                        ->translatedFormat('l, d F Y H:i') . ' WIB';
+                })
+                ->sortable(),
+
+            // // ✅ Kolom waktu terakhir diperbarui
+            // Tables\Columns\TextColumn::make('updated_at')
+            //     ->label('Diperbarui Pada')
+            //     ->getStateUsing(function ($record) {
+            //         return Carbon::parse($record->updated_at)
+            //              ->timezone(config('app.timezone'))
+            //             ->translatedFormat('l, d F Y H:i') . ' WIB';
+            //     })
+            //     ->sortable(),
             ])
            ->actions([
                 Tables\Actions\EditAction::make(),

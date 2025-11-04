@@ -1,48 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-<!-- Font Awesome untuk ikon -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<section class="max-w-5xl mx-auto px-6 py-10">
+    <div class="bg-white shadow-md rounded-lg p-8">
+        <h1 class="text-2xl font-bold text-primary mb-3">{{ $pengumuman->judul }}</h1>
 
-<section class="py-20 bg-gray-50 font-[Poppins]">
-    <div class="max-w-4xl mx-auto px-6">
-        <!-- Tombol kembali -->
-        <div class="mb-8">
-            <a href="{{ route('pengumuman.index') }}" class="inline-flex items-center text-primary hover:text-blue-700 transition">
-                <i class="fa-solid fa-arrow-left mr-2"></i> Kembali ke Pengumuman
-            </a>
+        <div class="flex items-center text-sm text-gray-500 mb-4">
+            <span>{{ $pengumuman->kategori?->nama_kategori ?? 'Tanpa Kategori' }}</span>
+            <span class="mx-2">•</span>
+            <span>{{ \Carbon\Carbon::parse($pengumuman->tanggal)->translatedFormat('d F Y') }}</span>
         </div>
 
-        <!-- Konten pengumuman -->
-        <div class="bg-white shadow-lg rounded-2xl p-8">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4 leading-snug">{{ $pengumuman->judul }}</h1>
-            <p class="text-gray-500 mb-6">
-                <i class="fa-regular fa-calendar-days mr-1"></i>
-                {{ \Carbon\Carbon::parse($pengumuman->tanggal)->translatedFormat('d F Y') }} 
-                • <span class="text-primary font-medium">SMPN 38 Palembang</span>
-            </p>
+        @if ($pengumuman->foto)
+            <img src="{{ asset('storage/' . $pengumuman->foto) }}" 
+                 alt="Gambar Pengumuman" 
+                 class="rounded-lg w-full h-auto object-contain mb-6">
+        @endif
 
-            @if($pengumuman->foto)
-                <img src="{{ asset('storage/' . $pengumuman->foto) }}" 
-                     alt="Gambar Pengumuman" 
-                     class="w-full rounded-lg shadow mb-8 object-cover">
-            @endif
+        <!-- 🔹 Deskripsi otomatis dari isi -->
+        <p class="text-gray-600 italic mb-6">
+            {{ $pengumuman->deskripsi }}
+        </p>
 
-            <div class="text-gray-700 leading-relaxed text-justify">
-                {!! nl2br(e($pengumuman->isi)) !!}
-            </div>
+        <div class="prose max-w-none text-gray-800 leading-relaxed">
+            {!! nl2br(e($pengumuman->isi)) !!}
         </div>
 
-        <!-- Media sosial -->
-        <div class="mt-12 text-center border-t pt-8">
-            <p class="text-gray-700 mb-4 font-medium">Bagikan ke media sosial</p>
-            <div class="flex justify-center space-x-6 text-2xl">
-                <a href="#" class="text-blue-600 hover:text-blue-800 transition"><i class="fab fa-facebook-square"></i></a>
-                <a href="#" class="text-pink-500 hover:text-pink-700 transition"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="text-blue-400 hover:text-blue-600 transition"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-red-600 hover:text-red-800 transition"><i class="fab fa-youtube"></i></a>
-            </div>
+        @if ($pengumuman->file_pdf)
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Lampiran PDF:</h3>
+            <iframe src="{{ asset('storage/' . $pengumuman->file_pdf) }}" 
+                    class="w-full h-[600px] border rounded-lg"></iframe>
+            <a href="{{ asset('storage/' . $pengumuman->file_pdf) }}" target="_blank" 
+               class="inline-block mt-3 text-blue-600 hover:underline">Buka di Tab Baru</a>
         </div>
+        @endif
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ url()->previous() }}" class="text-blue-600 hover:underline">
+            ← Kembali ke Pengumuman
+        </a>
     </div>
 </section>
 @endsection

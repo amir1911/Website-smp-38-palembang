@@ -29,17 +29,12 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
       <!-- Logo -->
-    <div class="flex items-center space-x-3">
-    <div class=" rounded-none">
-        <img src="{{ asset('storage/logo/logosmp.png') }}" 
-             alt="Logo SMPN 38 Palembang" 
-             class="h-10 w-10 object-contain">
-    </div>
-    <h1 class="text-white text-lg sm:text-xl font-semibold tracking-wide">
-        SMPN 38 Palembang
-    </h1>
-</div>
-
+      <div class="flex items-center space-x-3">
+        <img src="{{ asset('storage/logo/logosmp.png') }}" alt="Logo SMPN 38 Palembang" class="h-10 w-10 object-contain">
+        <h1 class="text-white text-lg sm:text-xl font-semibold tracking-wide">
+          SMPN 38 Palembang
+        </h1>
+      </div>
 
       <!-- Tombol Hamburger (HP) -->
       <button @click="open = !open" class="md:hidden text-white focus:outline-none">
@@ -61,10 +56,12 @@
           <div x-show="drop" @click.away="drop = false"
                class="absolute left-0 mt-2 w-52 bg-white shadow-lg rounded-lg overflow-hidden z-50">
             <a href="{{ route('pengumuman.index') }}" 
-               class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Semua Pengumuman</a>
+               class="block px-4 py-2 text-gray-700 hover:bg-blue-100">📢 Semua Pengumuman</a>
             @foreach ($kategori_pengumuman as $kat)
               <a href="{{ route('pengumuman.byKategori', $kat->id) }}" 
-                 class="block px-4 py-2 text-gray-700 hover:bg-blue-100">{{ $kat->nama_kategori }}</a>
+                 class="block px-4 py-2 text-gray-700 hover:bg-blue-100">
+                 {{ $kat->nama_kategori }}
+              </a>
             @endforeach
           </div>
         </div>
@@ -75,10 +72,15 @@
       </nav>
 
       <!-- Search Desktop -->
-      <div class="hidden md:flex items-center space-x-2">
-        <input type="text" placeholder="Cari..." class="px-3 py-1 rounded-lg text-sm focus:outline-none">
-        <button class="bg-white text-primary px-3 py-1 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-900 transition">Cari</button>
-      </div>
+      <form action="{{ route('search') }}" method="GET" class="hidden md:flex items-center space-x-2">
+  <input type="text" name="q" placeholder="Cari..." 
+         class="px-3 py-1 rounded-lg text-sm focus:outline-none" required>
+  <button type="submit" 
+          class="bg-white text-primary px-3 py-1 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-900 transition">
+    Cari
+  </button>
+</form>
+
     </div>
 
     <!-- Menu Mobile -->
@@ -94,7 +96,7 @@
 
         <div x-show="drop" x-transition class="bg-white text-gray-800 mt-2 rounded-lg shadow-lg overflow-hidden">
           <a href="{{ route('pengumuman.index') }}" 
-             class="block px-4 py-2 hover:bg-blue-100">Semua Pengumuman</a>
+             class="block px-4 py-2 hover:bg-blue-100">📢 Semua Pengumuman</a>
           @foreach ($kategori_pengumuman as $kat)
             <a href="{{ route('pengumuman.byKategori', $kat->id) }}" 
                class="block px-4 py-2 hover:bg-blue-100">{{ $kat->nama_kategori }}</a>
@@ -107,10 +109,15 @@
       <a href="/contact" class="block hover:text-yellow-300 font-medium">KONTAK</a>
 
       <!-- Search Mobile -->
-      <div class="pt-3 border-t border-blue-200">
-        <input type="text" placeholder="Cari..." class="w-full px-3 py-2 rounded-lg text-gray-700 focus:outline-none">
-        <button class="mt-2 w-full bg-white text-primary py-2 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-900 transition">Cari</button>
-      </div>
+     <form action="{{ route('search') }}" method="GET" class="pt-3 border-t border-blue-200">
+  <input type="text" name="q" placeholder="Cari..." 
+         class="w-full px-3 py-2 rounded-lg text-gray-700 focus:outline-none" required>
+  <button type="submit" 
+          class="mt-2 w-full bg-white text-primary py-2 rounded-lg font-semibold hover:bg-yellow-300 hover:text-indigo-900 transition">
+    Cari
+  </button>
+</form>
+
     </div>
   </header>
 
@@ -122,14 +129,11 @@
   <!-- ====================== FOOTER ====================== -->
   <footer class="bg-primary text-white pt-10 pb-6 mt-10">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
-
-      <!-- Logo -->
       <div>
         <h2 class="text-base font-bold tracking-wide">SMPN 38 PALEMBANG</h2>
         <p class="text-xs mt-2 text-gray-100">Sekolah unggulan berbasis Kurikulum Merdeka</p>
       </div>
 
-      <!-- Tautan -->
       <div>
         <h3 class="text-lg font-bold mb-2 border-b-2 border-white inline-block pb-1">TAUTAN CEPAT</h3>
         <ul class="space-y-1 mt-1 text-sm">
@@ -142,7 +146,6 @@
         </ul>
       </div>
 
-      <!-- Kontak -->
       <div>
         <h3 class="text-lg font-bold mb-2 border-b-2 border-white inline-block pb-1">HUBUNGI KAMI</h3>
         <ul class="space-y-2 text-sm">
@@ -153,10 +156,8 @@
       </div>
     </div>
 
-    <!-- Garis Bawah -->
     <div class="border-t border-white/40 mt-8 pt-4"></div>
 
-    <!-- Sosial Media -->
     <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between text-sm">
       <div class="flex space-x-4 mb-3 md:mb-0">
         <a href="#" class="hover:scale-110 transition-transform"><i class="fab fa-facebook-f text-lg"></i></a>
