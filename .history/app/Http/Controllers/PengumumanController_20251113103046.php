@@ -13,7 +13,7 @@ class PengumumanController extends Controller
     // Pengumuman dengan PDF
     $pengumumanPdf = Pengumuman::whereNotNull('file_pdf')
         ->orderBy('tanggal', 'desc')
-        ->paginate(3, ['*'], 'pdf_page');
+        ->paginate(5, ['*'], 'pdf_page');
 
     // Pengumuman biasa (card)
     $pengumumanBiasa = Pengumuman::whereNull('file_pdf')
@@ -38,7 +38,7 @@ public function byKategori($id)
     $pengumumanBiasa = Pengumuman::where('kategori_id', $id)
         ->whereNull('file_pdf')
         ->orderBy('tanggal', 'desc')
-        ->paginate(9, ['*'], 'biasa_page');
+        ->paginate(, ['*'], 'biasa_page');
 
     $kategoriList = KategoriPengumuman::all();
 

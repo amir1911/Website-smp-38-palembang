@@ -85,18 +85,14 @@
 
 <!-- Section Profil Sekolah -->
 <section class="bg-white py-16 sm:py-20 md:py-24 lg:py-28 font-[Poppins] overflow-hidden">
-  <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
 
     <!-- Kiri: Teks Profil -->
-    <div data-aos="fade-right" data-aos-duration="800" class="text-center lg:text-left">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#49ADFF] mb-2">
-        SMP NEGERI 38
-      </h2>
-      <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">
-        PALEMBANG
-      </h3>
+    <div data-aos="fade-right" data-aos-duration="800">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#49ADFF] mb-2">SMP NEGERI 38</h2>
+      <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">PALEMBANG</h3>
 
-      <div class="h-[3px] bg-black mx-auto lg:mx-0 w-1/2 sm:w-2/3 mb-6 md:mb-8"></div>
+      <div class="h-[3px] bg-black w-2/3 mb-6 md:mb-8"></div>
 
       <p class="text-gray-700 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
         SMP Negeri 38 Palembang merupakan sekolah unggulan berbasis 
@@ -105,7 +101,7 @@
       </p>
 
       <a href="#"
-         class="inline-flex items-center justify-center gap-2 bg-[#49ADFF] text-white px-6 sm:px-8 py-3 sm:py-3.5 md:py-4 rounded-full shadow-md hover:bg-[#2796f0] transition-all duration-500 transform hover:scale-105 text-sm sm:text-base md:text-lg">
+         class="inline-flex items-center gap-2 bg-[#49ADFF] text-white px-6 sm:px-7 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-full shadow-md hover:bg-[#2796f0] transition-all duration-500 transform hover:scale-110 text-sm sm:text-base md:text-lg">
         Learn More
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -114,17 +110,15 @@
     </div>
 
     <!-- Kanan: Logo Sekolah -->
-    <div class="flex justify-center mb-10 lg:mb-0" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="200">
-      <div class="bg-gradient-to-br from-[#F9FBFF] to-[#E9F3FF] shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 hover:scale-105 transition-transform duration-500">
+    <div class="flex justify-center" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="200">
+      <div class="bg-white shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 hover:scale-105 transition-transform duration-500">
         <img src="{{ asset('storage/logo/smp38palembang.jpg') }}" 
              alt="Logo Sekolah"
-             class="w-[200px] sm:w-[260px] md:w-[340px] lg:w-[420px] h-auto object-contain mx-auto animate-float">
+             class="w-[220px] sm:w-[280px] md:w-[360px] lg:w-[420px] h-auto object-contain mx-auto animate-float">
       </div>
     </div>
-
   </div>
 </section>
-
 
 <!-- Section Ekstrakurikuler -->
 <section 

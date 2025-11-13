@@ -85,18 +85,14 @@
 
 <!-- Section Profil Sekolah -->
 <section class="bg-white py-16 sm:py-20 md:py-24 lg:py-28 font-[Poppins] overflow-hidden">
-  <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
 
     <!-- Kiri: Teks Profil -->
-    <div data-aos="fade-right" data-aos-duration="800" class="text-center lg:text-left">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#49ADFF] mb-2">
-        SMP NEGERI 38
-      </h2>
-      <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">
-        PALEMBANG
-      </h3>
+    <div data-aos="fade-right" data-aos-duration="800">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#49ADFF] mb-2">SMP NEGERI 38</h2>
+      <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">PALEMBANG</h3>
 
-      <div class="h-[3px] bg-black mx-auto lg:mx-0 w-1/2 sm:w-2/3 mb-6 md:mb-8"></div>
+      <div class="h-[3px] bg-black w-2/3 mb-6 md:mb-8"></div>
 
       <p class="text-gray-700 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
         SMP Negeri 38 Palembang merupakan sekolah unggulan berbasis 
@@ -105,7 +101,7 @@
       </p>
 
       <a href="#"
-         class="inline-flex items-center justify-center gap-2 bg-[#49ADFF] text-white px-6 sm:px-8 py-3 sm:py-3.5 md:py-4 rounded-full shadow-md hover:bg-[#2796f0] transition-all duration-500 transform hover:scale-105 text-sm sm:text-base md:text-lg">
+         class="inline-flex items-center gap-2 bg-[#49ADFF] text-white px-6 sm:px-7 md:px-8 py-3 sm:py-3.5 md:py-4 rounded-full shadow-md hover:bg-[#2796f0] transition-all duration-500 transform hover:scale-110 text-sm sm:text-base md:text-lg">
         Learn More
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -114,17 +110,15 @@
     </div>
 
     <!-- Kanan: Logo Sekolah -->
-    <div class="flex justify-center mb-10 lg:mb-0" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="200">
-      <div class="bg-gradient-to-br from-[#F9FBFF] to-[#E9F3FF] shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 hover:scale-105 transition-transform duration-500">
+    <div class="flex justify-center" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="200">
+      <div class="bg-white shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 hover:scale-105 transition-transform duration-500">
         <img src="{{ asset('storage/logo/smp38palembang.jpg') }}" 
              alt="Logo Sekolah"
-             class="w-[200px] sm:w-[260px] md:w-[340px] lg:w-[420px] h-auto object-contain mx-auto animate-float">
+             class="w-[220px] sm:w-[280px] md:w-[360px] lg:w-[420px] h-auto object-contain mx-auto animate-float">
       </div>
     </div>
-
   </div>
 </section>
-
 
 <!-- Section Ekstrakurikuler -->
 <section 
@@ -227,98 +221,84 @@
 </section>
 
 <!-- Statistik Sekolah -->
-<section class="py-16 sm:py-20 md:py-24 bg-gray-50" id="statistik-section">
-    <div class="container mx-auto text-center px-4 sm:px-6 md:px-8">
-        <!-- Judul -->
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-10 sm:mb-12 md:mb-14 tracking-wide" style="color: #49ADFF;" data-aos="fade-up" data-aos-duration="800">
-            STATISTIK SEKOLAH
-        </h2>
+<section class="py-16 sm:py-20 md:py-24 bg-gradient-to-b from-[#F8FBFF] to-[#E9F4FF]" id="statistik-section">
+  <div class="container mx-auto text-center px-4 sm:px-6 md:px-8">
+    
+    <!-- Judul -->
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-10 sm:mb-12 md:mb-14 tracking-wide bg-gradient-to-r from-[#007BFF] to-[#00D4FF] bg-clip-text text-transparent" 
+        data-aos="fade-up" 
+        data-aos-duration="800">
+      Statistik Sekolah
+    </h2>
 
-        <div class="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-10">
-            <!-- Kartu Statistik: Guru -->
-            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
-                 style="border-color: #49ADFF;"
-                 data-aos="zoom-in"
-                 data-aos-duration="800"
-                 data-aos-delay="100">
-                <img src="https://img.icons8.com/ios-filled/100/49ADFF/teacher.png" 
-                     alt="Guru" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
-                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
-                      style="color: #49ADFF;"
-                      data-target="{{ $statistik->guru ?? 0 }}">0</span>
-                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Guru</span>
-            </div>
+    <!-- Kontainer Statistik -->
+    <div class="flex flex-wrap justify-center gap-8 sm:gap-10 md:gap-12">
 
-            <!-- Kartu Statistik: Siswa -->
-            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
-                 style="border-color: #49ADFF;"
-                 data-aos="zoom-in"
-                 data-aos-duration="800"
-                 data-aos-delay="200">
-                <img src="https://img.icons8.com/ios-filled/100/49ADFF/student-male.png" 
-                     alt="Siswa" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
-                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
-                      style="color: #49ADFF;"
-                      data-target="{{ ($statistik->kelas7 ?? 0) + ($statistik->kelas8 ?? 0) + ($statistik->kelas9 ?? 0) }}">0</span>
-                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Siswa</span>
-            </div>
-
-            <!-- Kartu Statistik: Staf -->
-            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
-                 style="border-color: #49ADFF;"
-                 data-aos="zoom-in"
-                 data-aos-duration="800"
-                 data-aos-delay="300">
-                <img src="https://img.icons8.com/ios-filled/100/49ADFF/conference.png" 
-                     alt="Staf" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
-                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
-                      style="color: #49ADFF;"
-                      data-target="{{ $statistik->staf ?? 0 }}">0</span>
-                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Staf</span>
-            </div>
+      <!-- Kartu Statistik -->
+      @foreach ([
+          ['icon' => 'https://img.icons8.com/ios-filled/100/49ADFF/teacher.png', 'label' => 'Guru', 'target' => $statistik->guru ?? 0, 'delay' => 100],
+          ['icon' => 'https://img.icons8.com/ios-filled/100/49ADFF/student-male.png', 'label' => 'Siswa', 'target' => ($statistik->kelas7 ?? 0) + ($statistik->kelas8 ?? 0) + ($statistik->kelas9 ?? 0), 'delay' => 200],
+          ['icon' => 'https://img.icons8.com/ios-filled/100/49ADFF/conference.png', 'label' => 'Staf', 'target' => $statistik->staf ?? 0, 'delay' => 300],
+      ] as $item)
+      <div class="bg-white rounded-2xl shadow-lg border border-[#E3F2FF] hover:shadow-2xl hover:-translate-y-2 transform transition-all duration-300 w-36 sm:w-44 md:w-52 p-6 flex flex-col items-center justify-center" 
+           data-aos="zoom-in" 
+           data-aos-delay="{{ $item['delay'] }}" 
+           data-aos-duration="800">
+        
+        <!-- Ikon -->
+        <div class="flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 bg-[#E8F5FF] rounded-full mb-4">
+          <img src="{{ $item['icon'] }}" alt="{{ $item['label'] }}" class="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
         </div>
+
+        <!-- Angka -->
+        <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" style="color: #49ADFF;" data-target="{{ $item['target'] }}">0</span>
+        
+        <!-- Label -->
+        <span class="text-sm sm:text-base md:text-lg text-gray-600 mt-1">{{ $item['label'] }}</span>
+      </div>
+      @endforeach
+
     </div>
+  </div>
 
-    <!-- Script: Angka berjalan saat discroll -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const counters = document.querySelectorAll(".counter");
-            const speed = 80;
-            let animated = false;
+  <!-- Script: Angka Berjalan Saat Discroll -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const counters = document.querySelectorAll(".counter");
+      const speed = 80;
+      let animated = false;
 
-            const animateCounters = () => {
-                counters.forEach(counter => {
-                    const updateCount = () => {
-                        const target = +counter.getAttribute("data-target");
-                        const count = +counter.innerText;
-                        const increment = Math.ceil(target / speed);
+      const animateCounters = () => {
+        counters.forEach(counter => {
+          const updateCount = () => {
+            const target = +counter.getAttribute("data-target");
+            const count = +counter.innerText;
+            const increment = Math.ceil(target / speed);
 
-                        if (count < target) {
-                            counter.innerText = count + increment;
-                            setTimeout(updateCount, 25);
-                        } else {
-                            counter.innerText = target;
-                        }
-                    };
-                    updateCount();
-                });
-            };
-
-            const section = document.querySelector("#statistik-section");
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && !animated) {
-                    animateCounters();
-                    animated = true;
-                }
-            }, { threshold: 0.5 });
-
-            observer.observe(section);
+            if (count < target) {
+              counter.innerText = count + increment;
+              setTimeout(updateCount, 25);
+            } else {
+              counter.innerText = target;
+            }
+          };
+          updateCount();
         });
-    </script>
+      };
+
+      const section = document.querySelector("#statistik-section");
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !animated) {
+          animateCounters();
+          animated = true;
+        }
+      }, { threshold: 0.5 });
+
+      observer.observe(section);
+    });
+  </script>
 </section>
+
 
 <!-- AOS Animation -->
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

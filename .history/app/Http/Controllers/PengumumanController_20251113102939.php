@@ -1,19 +1,9 @@
-<?php
-
-namespace App\Http\Controllers;
-
-use App\Models\Pengumuman;
-use App\Models\KategoriPengumuman;
-use Illuminate\Http\Request;
-
-class PengumumanController extends Controller
-{
-   public function index()
+public function index()
 {
     // Pengumuman dengan PDF
     $pengumumanPdf = Pengumuman::whereNotNull('file_pdf')
         ->orderBy('tanggal', 'desc')
-        ->paginate(3, ['*'], 'pdf_page');
+        ->paginate(5, ['*'], 'pdf_page');
 
     // Pengumuman biasa (card)
     $pengumumanBiasa = Pengumuman::whereNull('file_pdf')
@@ -43,6 +33,4 @@ public function byKategori($id)
     $kategoriList = KategoriPengumuman::all();
 
     return view('frontend.pengumuman', compact('pengumumanPdf', 'pengumumanBiasa', 'kategori', 'kategoriList'));
-}
-
 }
