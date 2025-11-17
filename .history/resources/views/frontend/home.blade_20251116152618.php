@@ -1,0 +1,488 @@
+@extends('layouts.app')
+
+@section('content')
+<!-- Import Google Font Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Ultra Minimal Lines Carousel - Enhanced & Responsive -->
+<section class="relative w-full overflow-hidden font-[Poppins] bg-white" 
+     x-data="{ current: 1, total: {{ count($carousels) }} }" 
+     x-init="setInterval(() => { current = current === total ? 1 : current + 1 }, 5000)">
+
+    <!-- Slide Items -->
+    <template x-for="(item, index) in {{ $carousels->toJson() }}" :key="index">
+        <div 
+            x-show="current === index + 1" 
+            x-transition:enter="transition ease-out duration-700"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            class="relative w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px] xl:h-[650px]">
+
+            <!-- Grid Layout Container -->
+            <div class="absolute inset-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20">
+                
+                <!-- Left Section: Title & Info -->
+                <div class="md:col-span-5 lg:col-span-4 flex flex-col justify-center md:justify-end order-2 md:order-1">
+                    <div class="space-y-4 sm:space-y-5 md:space-y-6">
+                        
+                        <!-- Minimalist Badge -->
+                        <div class="inline-flex items-center gap-2 sm:gap-3">
+                            <div class="w-6 sm:w-8 md:w-10 h-px bg-sky-400"></div>
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-sky-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3z"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-sky-600 font-medium uppercase tracking-wider hidden sm:inline">School Info</span>
+                        </div>
+                        
+                        <!-- Title -->
+                        <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extralight text-slate-800 leading-[1.15] tracking-tight" 
+                            x-text="item.judul">
+                        </h3>
+                        
+                        <!-- Thin Line Separator -->
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="w-10 sm:w-12 h-px bg-slate-300"></div>
+                            <div class="w-1 h-1 bg-sky-400 rounded-full"></div>
+                            <div class="flex-1 h-px bg-slate-200"></div>
+                        </div>
+                        
+                        <!-- Slide Counter Info -->
+                        <div class="flex items-baseline gap-2 sm:gap-3 text-slate-500">
+                            <span class="text-2xl sm:text-3xl md:text-4xl font-extralight tabular-nums" x-text="String(current).padStart(2, '0')"></span>
+                            <span class="text-xs sm:text-sm">/ <span class="tabular-nums" x-text="String(total).padStart(2, '0')"></span></span>
+                        </div>
+                        
+                        <!-- Optional: School label for mobile -->
+                        <div class="inline-flex items-center gap-2 text-xs text-slate-400 sm:hidden">
+                            <div class="w-1 h-1 bg-sky-400 rounded-full"></div>
+                            <span>Informasi Sekolah</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Image Area -->
+                <div class="md:col-span-7 lg:col-span-8 relative min-h-[240px] sm:min-h-[280px] md:min-h-0 order-1 md:order-2">
+                    
+                    <!-- Outer Border Frame -->
+                    <div class="absolute inset-0 border border-slate-200 transition-colors duration-300"></div>
+                    
+                    <!-- Image Container with Inner Padding -->
+                    <div class="absolute inset-1 sm:inset-2 overflow-hidden bg-slate-50">
+                        <img :src="'/storage/' + item.gambar" 
+                             :alt="item.judul" 
+                             class="w-full h-full object-cover transition-transform duration-700 hover:scale-105">
+                        
+                        <!-- Blue Tint Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-blue-400/15 to-cyan-500/25 mix-blend-multiply"></div>
+                        
+                        <!-- Subtle vignette -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/10 to-transparent"></div>
+                    </div>
+                    
+                    <!-- Corner Marks - Responsive sizes -->
+                    <div class="absolute top-0 left-0 w-3 h-3 sm:w-4 sm:h-4 border-t-2 border-l-2 border-sky-400 transition-all duration-300"></div>
+                    <div class="absolute top-0 right-0 w-3 h-3 sm:w-4 sm:h-4 border-t-2 border-r-2 border-sky-400 transition-all duration-300"></div>
+                    <div class="absolute bottom-0 left-0 w-3 h-3 sm:w-4 sm:h-4 border-b-2 border-l-2 border-sky-400 transition-all duration-300"></div>
+                    <div class="absolute bottom-0 right-0 w-3 h-3 sm:w-4 sm:h-4 border-b-2 border-r-2 border-sky-400 transition-all duration-300"></div>
+                    
+                    <!-- Hover effect on corners -->
+                    <style>
+                        .group:hover .corner-mark {
+                            @apply w-6 h-6;
+                        }
+                    </style>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Ultra Minimal Navigation - Fully Responsive -->
+    <div class="absolute bottom-4 sm:bottom-6 md:bottom-12 lg:bottom-16 xl:bottom-20 left-4 sm:left-6 md:left-12 lg:left-16 xl:left-20 right-4 sm:right-6 md:right-auto flex items-center justify-between md:justify-start gap-4 sm:gap-6 z-20">
+        
+        <!-- Previous Button -->
+        <button @click="current = current === 1 ? total : current - 1" 
+                class="group w-9 h-9 sm:w-10 sm:h-10 border border-slate-300 hover:border-sky-400 hover:bg-sky-50 text-slate-600 hover:text-sky-600 transition-all duration-300 flex items-center justify-center flex-shrink-0"
+                aria-label="Previous slide">
+            <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+        
+        <!-- Line Indicators - Hide on very small screens, show abbreviated -->
+        <div class="hidden xs:flex sm:flex gap-1.5 sm:gap-2 flex-1 md:flex-initial justify-center md:justify-start overflow-x-auto">
+            <template x-for="i in total">
+                <button 
+                    @click="current = i" 
+                    class="h-px transition-all duration-500 flex-shrink-0"
+                    :class="current === i ? 'w-12 sm:w-16 bg-sky-400' : 'w-6 sm:w-8 bg-slate-300 hover:bg-sky-300'"
+                    :aria-label="'Go to slide ' + i">
+                </button>
+            </template>
+        </div>
+        
+        <!-- Dot Indicators - Show only on very small screens -->
+        <div class="flex xs:hidden gap-1.5 flex-1 justify-center">
+            <template x-for="i in total">
+                <button 
+                    @click="current = i" 
+                    class="w-1.5 h-1.5 rounded-full transition-all duration-500"
+                    :class="current === i ? 'bg-sky-400 scale-125' : 'bg-slate-300'"
+                    :aria-label="'Go to slide ' + i">
+                </button>
+            </template>
+        </div>
+        
+        <!-- Next Button -->
+        <button @click="current = current === total ? 1 : current + 1" 
+                class="group w-9 h-9 sm:w-10 sm:h-10 border border-slate-300 hover:border-sky-400 hover:bg-sky-50 text-slate-600 hover:text-sky-600 transition-all duration-300 flex items-center justify-center flex-shrink-0"
+                aria-label="Next slide">
+            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Progress Bar - Top indicator -->
+    <div class="absolute top-0 left-0 right-0 h-0.5 bg-slate-100 z-30">
+        <div class="h-full bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-400 transition-all duration-[5000ms] ease-linear"
+             :style="'width: ' + ((current / total) * 100) + '%'">
+        </div>
+    </div>
+</section>
+
+
+<!-- Section Sambutan Kepala Sekolah -->
+<section class="bg-[#49ADFF] text-white py-12 sm:py-16 md:py-20 lg:py-24 font-[Poppins] overflow-hidden">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
+
+    <!-- Foto Kepala Sekolah -->
+    <div class="flex flex-col items-center" data-aos="fade-right" data-aos-duration="800">
+      <div class="border-4 border-cyan-300 rounded-2xl overflow-hidden shadow-2xl w-[240px] sm:w-[280px] md:w-[320px] lg:w-[380px] xl:w-[420px] transform hover:scale-105 transition-all duration-700">
+        <img src="{{ asset('storage/guru/windah.jpg') }}" 
+             alt="Kepala Sekolah" 
+             class="w-full h-[240px] sm:h-[280px] md:h-[340px] lg:h-[400px] object-cover">
+      </div>
+      <h2 class="mt-4 text-xl sm:text-2xl md:text-3xl font-semibold animate-bounce-slow">Windah</h2>
+      <p class="text-sm sm:text-base text-cyan-200 mt-1">Kepala Sekolah</p>
+    </div>
+
+    <!-- Teks Sambutan -->
+    <div data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+      <h3 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4">Sambutan Kepala Sekolah</h3>
+      <p class="italic mb-4 text-sm sm:text-base md:text-lg">Assalamu'alaikum warahmatullahi wabarakatuh</p>
+      <p class="text-justify text-sm sm:text-base md:text-lg leading-relaxed mb-3">
+        Puji syukur kita panjatkan ke hadirat Allah SWT, karena atas rahmat dan karunia-Nya,
+        SMP Negeri 38 Palembang dapat terus berkomitmen memberikan pendidikan terbaik bagi
+        generasi penerus bangsa...
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Section Profil Sekolah -->
+<section class="bg-white py-16 sm:py-20 md:py-24 lg:py-28 font-[Poppins] overflow-hidden">
+  <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 items-center px-4 sm:px-6 md:px-8">
+
+    <!-- Kiri: Teks Profil -->
+    <div data-aos="fade-right" data-aos-duration="800" class="text-center lg:text-left">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#49ADFF] mb-2">
+        SMP NEGERI 38
+      </h2>
+      <h3 class="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">
+        PALEMBANG
+      </h3>
+
+      <div class="h-[3px] bg-black mx-auto lg:mx-0 w-1/2 sm:w-2/3 mb-6 md:mb-8"></div>
+
+      <p class="text-gray-700 text-base sm:text-lg md:text-xl mb-6 md:mb-8 leading-relaxed">
+        SMP Negeri 38 Palembang merupakan sekolah unggulan berbasis 
+        <span class="font-medium">Kurikulum Merdeka</span> yang berkomitmen membentuk generasi
+        berkarakter, mandiri, dan kreatif dalam menghadapi tantangan masa depan.
+      </p>
+
+      <a href="/profile"
+         class="inline-flex items-center justify-center gap-2 bg-[#49ADFF] text-white px-6 sm:px-8 py-3 sm:py-3.5 md:py-4 rounded-full shadow-md hover:bg-[#2796f0] transition-all duration-500 transform hover:scale-105 text-sm sm:text-base md:text-lg">
+        Learn More
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Kanan: Logo Sekolah -->
+    <div class="flex justify-center mb-10 lg:mb-0" data-aos="zoom-in-up" data-aos-duration="800" data-aos-delay="200">
+      <div class="bg-gradient-to-br from-[#F9FBFF] to-[#E9F3FF] shadow-xl rounded-3xl p-6 sm:p-8 md:p-10 hover:scale-105 transition-transform duration-500">
+        <img src="{{ asset('storage/logo/smp38palembang.jpg') }}" 
+             alt="Logo Sekolah"
+             class="w-[200px] sm:w-[260px] md:w-[340px] lg:w-[420px] h-auto object-contain mx-auto animate-float">
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Section Ekstrakurikuler -->
+<section 
+  class="max-w-7xl mx-auto mt-12 sm:mt-16 md:mt-20 px-4 sm:px-6 md:px-8 relative mb-16"
+  x-data="{ 
+    scrollLeft() { $refs.carousel.scrollBy({ left: -350, behavior: 'smooth' }) }, 
+    scrollRight() { $refs.carousel.scrollBy({ left: 350, behavior: 'smooth' }) } 
+  }"
+>
+  <!-- Judul -->
+  <h2 
+    class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-center mb-8 sm:mb-10 md:mb-12 bg-gradient-to-r from-[#007BFF] to-[#00D4FF] bg-clip-text text-transparent select-none"
+    data-aos="fade-up"
+    data-aos-duration="800"
+  >
+    Kegiatan Ekstrakurikuler
+  </h2>
+
+  <!-- Tombol Navigasi Kiri -->
+  <button 
+    @click="scrollLeft"
+    class="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-[#007BFF] hover:text-white transition-all duration-300 z-10 hover:scale-110"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <!-- Carousel -->
+  <div 
+    x-ref="carousel"
+    class="flex gap-6 md:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-8 cursor-grab active:cursor-grabbing px-2"
+  >
+    @foreach($ekstrakurikulers as $index => $item)
+      <div 
+        class="flex-shrink-0 w-64 sm:w-72 md:w-80 lg:w-[340px] bg-white/80 backdrop-blur-xl rounded-3xl shadow-lg hover:shadow-2xl border border-white/30 transition-all duration-500 transform hover:-translate-y-2 hover:scale-[1.02] snap-center"
+        data-aos="zoom-in"
+        data-aos-duration="800"
+        data-aos-delay="{{ $index * 100 }}"
+      >
+        <!-- Gambar -->
+        <div class="flex items-center justify-center h-48 sm:h-52 md:h-56 bg-gradient-to-br from-[#f7fbff] to-[#eef5ff] rounded-t-3xl">
+          <img 
+            src="{{ asset('storage/' . $item->foto) }}" 
+            alt="{{ $item->nama_kegiatan }}" 
+            class="max-h-44 sm:max-h-48 md:max-h-52 max-w-[90%] object-contain rounded-xl transition-transform duration-700 hover:scale-105"
+          >
+        </div>
+
+        <!-- Konten -->
+        <div class="p-5 text-center select-none">
+          <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-2">
+            {{ $item->nama_kegiatan }}
+          </h3>
+          <p class="text-gray-600 text-sm md:text-base leading-relaxed">
+            {{ Str::limit($item->deskripsi, 100) }}
+          </p>
+        </div>
+      </div>
+    @endforeach
+  </div>
+
+  <!-- Tombol Navigasi Kanan -->
+  <button 
+    @click="scrollRight"
+    class="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/80 backdrop-blur-md p-3 rounded-full shadow-lg hover:bg-[#007BFF] hover:text-white transition-all duration-300 z-10 hover:scale-110"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+</section>
+
+<!-- Section Keunggulan Sekolah -->
+<section class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 text-center">
+    <h3 class="text-[#49ADFF] text-xs sm:text-sm md:text-base font-semibold mb-2" data-aos="fade-down" data-aos-duration="800">Our Service</h3>
+    <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-8 sm:mb-10 md:mb-12" data-aos="fade-down" data-aos-duration="800" data-aos-delay="100">
+      Keunggulan Sekolah Kami
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
+      @foreach([
+        ['icon' => 'sekolah.png', 'judul' => 'Sistem Smart School', 'deskripsi' => 'Sekolah kami mulai menerapkan Sistem Smart School sebagai upaya memanfaatkan teknologi dalam kegiatan sekolah.'],
+        ['icon' => 'Terakreditasi A.png', 'judul' => 'Terakreditasi A', 'deskripsi' => 'Sekolah kami berstatus Akreditasi A, yang menunjukkan kualitas pembelajaran dan tenaga pendidik yang sangat baik.'],
+        ['icon' => 'kurikulum merdeka.png', 'judul' => 'Kurikulum Merdeka', 'deskripsi' => 'Sekolah kami sudah menerapkan Kurikulum Merdeka yang menekankan pada kebebasan belajar dan penguatan karakter.']
+      ] as $index => $card)
+      <div data-aos="zoom-in" data-aos-duration="800" data-aos-delay="{{ $index * 150 + 300 }}"
+           class="group flex flex-col items-center text-center p-6 sm:p-8 bg-white rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#49ADFF]/5 via-transparent to-[#49ADFF]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <img src="{{ asset('storage/sekolah/' . $card['icon']) }}" 
+             alt="{{ $card['judul'] }}" 
+             class="w-16 h-16 sm:w-20 sm:h-20 mb-4 relative z-10 transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+        <h3 class="text-[#49ADFF] font-semibold text-base sm:text-lg md:text-xl mb-2 relative z-10">{{ $card['judul'] }}</h3>
+        <p class="text-gray-600 text-sm sm:text-base leading-relaxed relative z-10">{{ $card['deskripsi'] }}</p>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+
+<!-- Statistik Sekolah -->
+<section class="py-16 sm:py-20 md:py-24 bg-gray-50" id="statistik-section">
+    <div class="container mx-auto text-center px-4 sm:px-6 md:px-8">
+        <!-- Judul -->
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-10 sm:mb-12 md:mb-14 tracking-wide" style="color: #49ADFF;" data-aos="fade-up" data-aos-duration="800">
+            STATISTIK SEKOLAH
+        </h2>
+
+        <div class="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-10">
+            <!-- Kartu Statistik: Guru -->
+            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
+                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
+                 style="border-color: #49ADFF;"
+                 data-aos="zoom-in"
+                 data-aos-duration="800"
+                 data-aos-delay="100">
+                <img src="https://img.icons8.com/ios-filled/100/49ADFF/teacher.png" 
+                     alt="Guru" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
+                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
+                      style="color: #49ADFF;"
+                      data-target="{{ $statistik->guru ?? 0 }}">0</span>
+                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Guru</span>
+            </div>
+
+            <!-- Kartu Statistik: Siswa -->
+            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
+                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
+                 style="border-color: #49ADFF;"
+                 data-aos="zoom-in"
+                 data-aos-duration="800"
+                 data-aos-delay="200">
+                <img src="https://img.icons8.com/ios-filled/100/49ADFF/student-male.png" 
+                     alt="Siswa" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
+                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
+                      style="color: #49ADFF;"
+                      data-target="{{ ($statistik->kelas7 ?? 0) + ($statistik->kelas8 ?? 0) + ($statistik->kelas9 ?? 0) }}">0</span>
+                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Siswa</span>
+            </div>
+
+            <!-- Kartu Statistik: Staf -->
+            <div class="bg-white rounded-full border-4 p-6 sm:p-8 flex flex-col items-center shadow-lg 
+                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 justify-center hover:scale-110 transition transform duration-300 hover:shadow-2xl"
+                 style="border-color: #49ADFF;"
+                 data-aos="zoom-in"
+                 data-aos-duration="800"
+                 data-aos-delay="300">
+                <img src="https://img.icons8.com/ios-filled/100/49ADFF/conference.png" 
+                     alt="Staf" class="mb-2 sm:mb-3 w-12 h-12 sm:w-16 sm:h-16">
+                <span class="text-3xl sm:text-4xl md:text-5xl font-extrabold counter" 
+                      style="color: #49ADFF;"
+                      data-target="{{ $statistik->staf ?? 0 }}">0</span>
+                <span class="text-base sm:text-lg md:text-xl text-gray-600 mt-1">Staf</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script: Angka berjalan saat discroll -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const counters = document.querySelectorAll(".counter");
+            const speed = 80;
+            let animated = false;
+
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute("data-target");
+                        const count = +counter.innerText;
+                        const increment = Math.ceil(target / speed);
+
+                        if (count < target) {
+                            counter.innerText = count + increment;
+                            setTimeout(updateCount, 25);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            const section = document.querySelector("#statistik-section");
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && !animated) {
+                    animateCounters();
+                    animated = true;
+                }
+            }, { threshold: 0.5 });
+
+            observer.observe(section);
+        });
+    </script>
+</section>
+
+<!-- AOS Animation -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1000,
+    once: true,
+    offset: 80,
+    easing: 'ease-in-out',
+    disable: function() {
+      return window.innerWidth < 768;
+    }
+  });
+</script>
+
+<!-- Custom Animation -->
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 1.2s ease-in-out both;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2.5s ease-in-out infinite;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth transitions untuk semua elemen */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsif untuk mobile kecil */
+@media (max-width: 640px) {
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .animate-bounce-slow {
+    animation: bounce-slow 3s ease-in-out infinite;
+  }
+}
+</style>
+@endsection
