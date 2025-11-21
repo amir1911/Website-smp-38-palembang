@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================
+   CUSTOM SIDEBAR BLUE THEME
+   ============================ */
+
+/* Sidebar background */
+.filament-sidebar {
+    @apply bg-blue-800 text-white;
+}
+
+/* Sidebar header */
+.filament-sidebar-header {
+    @apply bg-blue-900 text-white border-b border-blue-700;
+}
+
+/* Menu label */
+.filament-sidebar-nav .fi-sidebar-item-label {
+    @apply text-blue-100;
+}
+
+/* Menu icon */
+.filament-sidebar-nav .fi-sidebar-item-icon {
+    @apply text-blue-200;
+}
+
+/* Hover menu */
+.filament-sidebar-nav .fi-sidebar-item:hover {
+    @apply bg-blue-700;
+}
+
+/* Active menu */
+.filament-sidebar-nav .fi-sidebar-item.active {
+    @apply bg-blue-600 border-l-4 border-blue-300;
+}
+
+.filament-sidebar-nav .fi-sidebar-item.active .fi-sidebar-item-label {
+    @apply text-white;
+}
+
+.filament-sidebar-nav .fi-sidebar-item.active .fi-sidebar-item-icon {
+    @apply text-blue-100;
+}
+
+/* Submenu style */
+.filament-sidebar-nav .fi-sidebar-group .fi-sidebar-group-label {
+    @apply text-blue-200;
+}

@@ -1,0 +1,34 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ===== CUSTOM SIDEBAR ===== */
+
+/* Sidebar */
+.filament-sidebar {
+    @apply bg-white text-gray-800;
+}
+
+/* Menu */
+.filament-sidebar-nav .fi-sidebar-item-label {
+    @apply text-gray-700;
+}
+
+.filament-sidebar-nav .fi-sidebar-item:hover {
+    @apply bg-gray-100;
+}
+
+.filament-sidebar-nav .fi-sidebar-item.active {
+    @apply bg-blue-100 border-l-4 border-blue-500;
+}
+
+.filament-sidebar-nav .fi-sidebar-item-icon {
+    @apply text-gray-500;
+}
+
+/* Header sidebar */
+.filament-sidebar-header {
+    @apply bg-gray-50 border-b border-gray-200;
+}

@@ -1,0 +1,45 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* ===== CUSTOM SIDEBAR ===== */
+
+/* Warna background sidebar */
+.filament-sidebar {
+    @apply bg-blue-700 text-white;
+}
+
+/* Warna tulisan menu */
+.filament-sidebar-nav .fi-sidebar-item-label {
+    @apply text-white;
+}
+
+/* Hover */
+.filament-sidebar-nav .fi-sidebar-item:hover {
+    @apply bg-blue-600;
+}
+
+/* Icon warna */
+.filament-sidebar-nav .fi-sidebar-item-icon {
+    @apply text-blue-200;
+}
+
+/* Warna active menu */
+.filament-sidebar-nav .fi-sidebar-item.active {
+    @apply bg-blue-900 border-l-4 border-blue-300;
+}
+
+.filament-sidebar-nav .fi-sidebar-item.active .fi-sidebar-item-label {
+    @apply text-blue-100;
+}
+
+.filament-sidebar-nav .fi-sidebar-item.active .fi-sidebar-item-icon {
+    @apply text-blue-300;
+}
+
+/* Header / brand sidebar */
+.filament-sidebar-header {
+    @apply bg-blue-800 text-white border-b border-blue-500;
+}

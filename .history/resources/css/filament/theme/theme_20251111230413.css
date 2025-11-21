@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === SMPN 38 Palembang Theme Customization === */
+:root {
+  --filament-color-primary-50: #eff6ff;
+  --filament-color-primary-100: #dbeafe;
+  --filament-color-primary-200: #bfdbfe;
+  --filament-color-primary-300: #93c5fd;
+  --filament-color-primary-400: #60a5fa;
+  --filament-color-primary-500: #3b82f6;
+  --filament-color-primary-600: #2563eb;
+  --filament-color-primary-700: #1d4ed8;
+  --filament-color-primary-800: #1e40af;
+  --filament-color-primary-900: #1e3a8a;
+}
+
+/* === Font dan Umum === */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f8fafc;
+}
+
+/* === Sidebar === */
+.fi-sidebar {
+  @apply bg-gradient-to-b from-blue-700 to-blue-500 text-white shadow-lg;
+}
+
+.fi-sidebar-item-active {
+  @apply bg-blue-600 text-white font-semibold rounded-lg;
+}
+
+.fi-sidebar-item:hover {
+  @apply bg-blue-600 text-white transition duration-200;
+}
+
+/* === Topbar (header) === */
+.fi-topbar {
+  @apply bg-white shadow-md border-b border-gray-200;
+}
+
+.fi-topbar > * {
+  @apply text-gray-700;
+}
+
+/* === Tombol === */
+.fi-btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow;
+}
+
+.fi-btn-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white font-semibold;
+}
+
+/* === Card & Form === */
+.fi-card {
+  @apply bg-white shadow-lg rounded-xl border border-gray-100;
+}
+
+.fi-input, .fi-textarea {
+  @apply border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500;
+}
+
+/* === Login Page Custom === */
+.fi-login-page {
+  @apply bg-gradient-to-br from-blue-600 to-blue-400 min-h-screen flex items-center justify-center;
+}
+
+.fi-login-card {
+  @apply bg-white/95 backdrop-blur-md shadow-2xl p-10 rounded-2xl border border-blue-200;
+}
+
+.fi-login-logo {
+  @apply mb-6 flex justify-center;
+}
+
+.fi-login-logo img {
+  @apply w-20 h-20 drop-shadow-md;
+}
