@@ -1,0 +1,93 @@
+:root {
+            --primary: #2A5082;
+            --primary-dark: #2A5082;
+        }
+
+        .bg-primary {
+            background-color: var(--primary);
+        }
+
+        .bg-primary-dark {
+            background-color: var(--primary-dark);
+        }
+
+        .text-primary {
+            color: var(--primary);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.3px;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Smooth Transitions */
+        a,
+        button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hover Effects */
+        .hover-lift:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(41, 37, 204, 0.4);
+        }
+
+        /* Navbar Scrolled Effect */
+        .navbar-scrolled {
+            background-color: var(--primary-dark) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        .touch-ripple {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+            border-radius: 9999px;
+            background: rgba(41, 37, 204, 0.45);
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple-soft 0.6s ease-out forwards;
+            z-index: 999999;
+        }
+
+        @keyframes ripple-soft {
+            0% {
+                opacity: 0.9;
+                transform: scale(0.2);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(10);
+            }
+        }
