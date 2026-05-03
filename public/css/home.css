@@ -1,77 +1,72 @@
- @keyframes wave {
-      0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(5deg); }
-      75% { transform: rotate(-5deg); }
-    }
-    
-    @keyframes slideUp {
-      0% { transform: translateY(20px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-    
-    .animate-wave {
-      animation: wave 3s ease-in-out infinite;
-    }
-    
-    .animate-slide-up {
-      animation: slideUp 0.6s ease-out;
-    }
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  25%       { transform: rotate(5deg); }
+  75%       { transform: rotate(-5deg); }
+}
 
+@keyframes slideUp {
+  0%   { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
 
-     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(73, 173, 255, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(73, 173, 255, 0.6); }
-    }
-    
-    @keyframes gradient-shift {
-      0%, 100% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-    }
-    
-    .animate-float {
-      animation: float 4s ease-in-out infinite;
-    }
-    
-    .animate-pulse-glow {
-      animation: pulse-glow 3s ease-in-out infinite;
-    }
-    
-    .gradient-animated {
-      background-size: 200% 200%;
-      animation: gradient-shift 5s ease infinite;
-    }
-    
-    .text-gradient {
-      background: linear-gradient(135deg, #49ADFF 0%, #2D8FD7 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+.animate-wave {
+  animation: wave 3s ease-in-out infinite;
+}
 
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
 
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
 
-/* css kata sambutan */
-    @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(117, 134, 80, 0.3); } /* Olive Green */
+  50%       { box-shadow: 0 0 40px rgba(117, 134, 80, 0.6); } /* Olive Green */
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
 }
 
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
 
-:root {
-    --blue-dark: #1D4E89;   /* Biru tua */
-    --blue-main: #2D6BB5;   /* Biru sedang */
-    --blue-light: #A6C9FF;  /* Biru lembut */
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
 }
 
+.gradient-animated {
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+}
+
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    #B5C267 0%,   /* Light Green */
+    #758650 50%,  /* Olive Green */
+    #4A5435 100%  /* Deep Olive */
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   CSS Kata Sambutan
+   ============================================ */
+
+:root {
+  --green-dark:  #4A5435;  /* Deep Olive  → ganti --blue-dark  */
+  --green-main:  #758650;  /* Olive Green → ganti --blue-main  */
+  --green-light: #B5C267;  /* Light Green → ganti --blue-light */
+  --golden:      #E8B634;  /* Golden Yellow (bonus CP5) */
+  --pale-yellow: #FFE27C;  /* Pale Yellow  (bonus CP5) */
+  --sand:        #C9B6A1;  /* Sand Beige   (bonus CP5) */
+  --off-white:   #F8F9F8;  /* Off White    (bonus CP5) */
+}

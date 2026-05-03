@@ -6,7 +6,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
-class User extends Authenticatable
+// 🔥 WAJIB ADA
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
+
+class User extends Authenticatable implements FilamentUser
 {
     use Notifiable;
 
@@ -29,13 +33,9 @@ class User extends Authenticatable
         );
     }
 
-    public function isSuperAdmin(): bool
+    // 🔥 TEST DULU INI
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'super_admin';
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->role === 'admin';
+        return true;
     }
 }

@@ -1,256 +1,282 @@
 @extends('layouts.app')
 
+@section('title', 'Pengumuman')
+
 @section('content')
 
-    <!-- Background Gradient Section -->
-    <div class="w-full px-4 sm:px-6 md:px-12 lg:px-20 py-12 sm:py-16 md:py-24 -mb-20"
-        style="background: linear-gradient(180deg, #4A7CB8 0%, #5E8FC5 20%, #7BA6D4 40%, #9CBFE3 60%, #B8D4EE 80%, #D0E4F5 100%);">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 
-        <div class="max-w-6xl mx-auto">
+<style>
+    .font-display { font-family: 'Playfair Display', serif; }
+    .font-body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .dot-grid {
+        background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+        background-size: 24px 24px;
+    }
+    .stripe-bg {
+        background-image: repeating-linear-gradient(
+            -45deg, transparent, transparent 10px,
+            rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px
+        );
+    }
+    @keyframes fadeUp {
+        from { opacity:0; transform:translateY(24px); }
+        to   { opacity:1; transform:translateY(0); }
+    }
+    .fade-up    { animation: fadeUp 0.7s ease forwards; }
+    .fade-up-d1 { animation-delay: 0.1s;  opacity:0; }
+    .fade-up-d2 { animation-delay: 0.22s; opacity:0; }
+    .fade-up-d3 { animation-delay: 0.34s; opacity:0; }
+    .fade-up-d4 { animation-delay: 0.46s; opacity:0; }
+    .card-hover {
+        transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 48px rgba(2,62,138,0.13);
+    }
+    .news-card:hover .news-img { transform: scale(1.08); }
+    .news-img { transition: transform 0.5s ease; }
+</style>
 
-            <!-- ========== HEADER SECTION ========== -->
-            <div class="text-center mb-8 sm:mb-10 md:mb-12">
+{{-- ===== HERO BANNER ===== --}}
+<div class="relative overflow-hidden bg-[#023E8A] stripe-bg font-body">
+    <div class="absolute inset-0 dot-grid"></div>
+    <div class="absolute -top-16 -right-16 w-72 h-72 bg-white/5 rounded-full"></div>
+    <div class="absolute top-12 right-40 w-36 h-36 bg-white/5 rounded-full"></div>
+    <div class="absolute -bottom-10 -left-10 w-52 h-52 bg-[#00B4D8]/10 rounded-full"></div>
 
-                <!-- Badge kecil atas -->
-                <div
-                    class="inline-block bg-white/20 backdrop-blur-sm px-6 sm:px-8 md:px-10 py-1.5 sm:py-2 rounded-full mb-3 border border-white/30 shadow-lg">
-                    <h1 class="text-white text-sm sm:text-base md:text-lg lg:text-xl font-bold tracking-wide drop-shadow-md">
-                        PENGUMUMAN SEKOLAH
-                    </h1>
-                </div>
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16 sm:py-20 relative z-10">
 
-                <!-- Judul Utama -->
-                <h2
-                    class="text-white font-extrabold tracking-wide drop-shadow-lg
-               text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl leading-tight">
-                    SMP NEGERI 38 PALEMBANG
-                </h2>
+        {{-- Breadcrumb --}}
+        <div class="flex items-center gap-2 text-[#90E0EF] text-xs font-semibold mb-6 fade-up fade-up-d1">
+            <a href="/" class="hover:text-white transition">Beranda</a>
+            <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+            <span class="text-white">Pengumuman</span>
+        </div>
 
-            </div>
+        <span class="text-[#90E0EF] text-xs font-bold tracking-[4px] uppercase mb-3 block fade-up fade-up-d1">
+            Informasi Sekolah
+        </span>
+        <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight fade-up fade-up-d2">
+            Pengumuman <span class="text-[#00B4D8]">Sekolah</span>
+        </h1>
+        <div class="flex items-center gap-3 mt-4 fade-up fade-up-d3">
+            <span class="w-14 h-1 bg-[#F4A261] rounded-full"></span>
+            <span class="w-8 h-1 bg-[#00B4D8] rounded-full"></span>
+            <span class="w-4 h-1 bg-white/30 rounded-full"></span>
+        </div>
+        <p class="text-[#CAF0F8] text-sm sm:text-base mt-4 max-w-lg leading-relaxed fade-up fade-up-d4">
+            Informasi dan pengumuman terbaru dari SMA Negeri 1 Pesisir Barat.
+        </p>
 
-            <!-- ========== FILTER KATEGORI ========== -->
-            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 md:mb-12">
-                <a href="{{ route('pengumuman.index') }}"
-                    class="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold 
-               transition-all duration-300 shadow-md hover:shadow-lg
-               {{ !isset($kategori)
-                   ? 'bg-white text-blue-600'
-                   : 'bg-white/20 text-white border border-white/30 hover:bg-white/30' }}">
-                    <span class="flex items-center gap-1.5 sm:gap-2">
-                        <i class="fas fa-th-large text-xs"></i>
-                        Semua
-                    </span>
+        {{-- Filter Kategori --}}
+        <div class="flex flex-wrap gap-2 sm:gap-3 mt-8 fade-up fade-up-d4">
+            <a href="{{ route('pengumuman.index') }}"
+                class="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-300
+                {{ !isset($kategori) ? 'bg-white text-[#023E8A]' : 'bg-white/20 text-white border border-white/30 hover:bg-white/30' }}">
+                <i class="fas fa-th-large text-xs"></i>
+                Semua
+            </a>
+            @foreach ($kategoriList as $kat)
+                <a href="{{ route('pengumuman.byKategori', $kat->id) }}"
+                    class="inline-flex items-center gap-2 px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-300
+                    {{ isset($kategori) && $kategori->id == $kat->id ? 'bg-white text-[#023E8A]' : 'bg-white/20 text-white border border-white/30 hover:bg-white/30' }}">
+                    <i class="fas fa-folder text-xs"></i>
+                    {{ $kat->nama_kategori }}
                 </a>
+            @endforeach
+        </div>
+    </div>
 
-                @foreach ($kategoriList as $kat)
-                    <a href="{{ route('pengumuman.byKategori', $kat->id) }}"
-                        class="px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold 
-                   transition-all duration-300 shadow-md hover:shadow-lg
-                   {{ isset($kategori) && $kategori->id == $kat->id
-                       ? 'bg-white text-blue-600'
-                       : 'bg-white/20 text-white border border-white/30 hover:bg-white/30' }}">
-                        <span class="flex items-center gap-1.5 sm:gap-2">
-                            <i class="fas fa-folder text-xs"></i>
-                            {{ $kat->nama_kategori }}
-                        </span>
-                    </a>
-                @endforeach
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" class="block -mb-1">
+        <path fill="#f8fafc" d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z"/>
+    </svg>
+</div>
+
+{{-- ===== MAIN CONTENT ===== --}}
+<div class="bg-slate-50 py-16 sm:py-20 font-body">
+    <div class="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
+
+        {{-- ===== DOKUMEN PDF ===== --}}
+        @if ($pengumumanPdf->count() > 0)
+        <div class="card-hover bg-white rounded-3xl overflow-hidden border border-[#CAF0F8] shadow-sm fade-up fade-up-d2">
+
+            {{-- Card header --}}
+            <div class="bg-gradient-to-r from-[#023E8A] to-[#0077B6] px-8 sm:px-10 py-5 flex items-center gap-4">
+                <div class="bg-white/20 rounded-xl w-10 h-10 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-file-pdf text-white text-lg"></i>
+                </div>
+                <div>
+                    <p class="text-[#CAF0F8] text-xs font-bold tracking-[3px] uppercase">SMA Negeri 1 Pesisir Barat</p>
+                    <h2 class="font-display text-white text-xl sm:text-2xl font-bold">Dokumen Pengumuman</h2>
+                </div>
             </div>
 
-            <!-- ========== DOKUMEN PDF SECTION ========== -->
-            @if ($pengumumanPdf->count() > 0)
-                <div
-                    class="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 mb-8 sm:mb-10 md:mb-12 mx-2 sm:mx-0">
+            <div class="px-8 sm:px-10 py-8 sm:py-10">
 
-                    <!-- Header Dokumen -->
-                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-md flex-shrink-0"
-                            style="background: linear-gradient(135deg, #1A4E8A 0%, #2575B8 100%);">
-                            <i class="fas fa-file-pdf text-white text-lg sm:text-xl"></i>
+                {{-- Mobile: Card View --}}
+                <div class="block lg:hidden space-y-4">
+                    @foreach ($pengumumanPdf as $index => $item)
+                    <div class="bg-slate-50 rounded-2xl border border-[#CAF0F8] p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="bg-[#023E8A] text-white text-xs font-bold px-3 py-1 rounded-full">
+                                #{{ $pengumumanPdf->firstItem() + $index }}
+                            </span>
+                            <span class="bg-blue-100 text-[#023E8A] text-xs font-semibold px-3 py-1 rounded-full">
+                                {{ $item->kategori?->nama_kategori ?? '-' }}
+                            </span>
                         </div>
-                        <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-                            Dokumen Pengumuman
-                        </h3>
+                        <h4 class="font-bold text-gray-800 mb-2 text-sm sm:text-base">{{ $item->judul }}</h4>
+                        <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
+                            <i class="fas fa-calendar-alt text-[#0077B6]"></i>
+                            <span>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="{{ route('pengumuman.show', $item->id) }}"
+                                class="flex-1 inline-flex items-center justify-center gap-1.5 bg-[#023E8A] hover:bg-[#0077B6] text-white text-xs font-bold px-3 py-2 rounded-full transition-all duration-300">
+                                <i class="fas fa-eye"></i> Detail
+                            </a>
+                            <a href="{{ asset('storage/' . $item->file_pdf) }}" target="_blank"
+                                class="flex-1 inline-flex items-center justify-center gap-1.5 border-2 border-[#0077B6] text-[#0077B6] hover:bg-[#0077B6] hover:text-white text-xs font-bold px-3 py-2 rounded-full transition-all duration-300">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                        </div>
                     </div>
-
-                    <!-- Mobile: Card View -->
-                    <div class="block lg:hidden space-y-4">
-                        @foreach ($pengumumanPdf as $index => $item)
-                            <div class="bg-gray-50 rounded-xl border border-gray-200 shadow-sm p-4">
-                                <div class="flex justify-between items-start mb-3">
-                                    <span class="text-white text-xs font-bold px-3 py-1 rounded-full"
-                                        style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 100%);">
-                                        #{{ $pengumumanPdf->firstItem() + $index }}
-                                    </span>
-                                    <span class="px-2 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                                        {{ $item->kategori?->nama_kategori ?? '-' }}
-                                    </span>
-                                </div>
-
-                                <h4 class="font-bold text-gray-800 mb-2 text-sm sm:text-base">{{ $item->judul }}</h4>
-
-                                <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
-                                    <i class="fas fa-calendar-alt text-blue-500"></i>
-                                    <span>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}</span>
-                                </div>
-
-                                <div class="flex gap-2">
-                                    <a href="{{ route('pengumuman.show', $item->id) }}"
-                                        class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 text-white rounded-lg transition-all duration-200 shadow-md text-xs font-bold"
-                                        style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 100%);">
-                                        <i class="fas fa-eye"></i>
-                                        <span>Detail</span>
-                                    </a>
-                                    <a href="{{ asset('storage/' . $item->file_pdf) }}" target="_blank"
-                                        class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 shadow-md text-xs font-bold">
-                                        <i class="fas fa-download"></i>
-                                        <span>Download</span>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Desktop: Table View -->
-                    <div class="hidden lg:block overflow-hidden rounded-xl border border-gray-200 shadow-md">
-                        <table class="min-w-full text-sm">
-                            <thead class="text-white"
-                                style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 50%, #1A4E8A 100%);">
-                                <tr>
-                                    <th class="px-4 py-3 text-center font-bold">No</th>
-                                    <th class="px-4 py-3 font-bold text-left">Judul</th>
-                                    <th class="px-4 py-3 font-bold text-left">Kategori</th>
-                                    <th class="px-4 py-3 font-bold text-left">Tanggal</th>
-                                    <th class="px-4 py-3 text-center font-bold">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($pengumumanPdf as $index => $item)
-                                    <tr class="hover:bg-blue-50 transition-colors duration-200">
-                                        <td class="px-4 py-3 text-center font-bold text-gray-700">
-                                            {{ $pengumumanPdf->firstItem() + $index }}
-                                        </td>
-                                        <td class="px-4 py-3 font-semibold text-gray-800">{{ $item->judul }}</td>
-                                        <td class="px-4 py-3">
-                                            <span
-                                                class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
-                                                {{ $item->kategori?->nama_kategori ?? '-' }}
-                                            </span>
-                                        </td>
-                                        <td class="px-4 py-3 text-gray-600">
-                                            <i class="fas fa-calendar-alt mr-2 text-blue-500"></i>
-                                            {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
-                                        </td>
-                                        <td class="px-4 py-3 text-center">
-                                            <div class="flex items-center justify-center gap-2">
-                                                <a href="{{ route('pengumuman.show', $item->id) }}"
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-white rounded-lg transition-all duration-200 shadow-md text-xs font-bold"
-                                                    style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 100%);">
-                                                    <i class="fas fa-eye"></i>
-                                                    Detail
-                                                </a>
-                                                <a href="{{ asset('storage/' . $item->file_pdf) }}" target="_blank"
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 shadow-md text-xs font-bold">
-                                                    <i class="fas fa-download"></i>
-                                                    Download
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagination PDF -->
-                    <div class="mt-4 sm:mt-6">
-                        {{ $pengumumanPdf->appends(request()->query())->links('vendor.pagination.custom') }}
-                    </div>
+                    @endforeach
                 </div>
-            @endif
 
-            <!-- ========== PENGUMUMAN UMUM SECTION ========== -->
-            @if ($pengumumanBiasa->count() > 0)
-                <div class="bg-white rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 md:p-8 mx-2 sm:mx-0">
-
-                    <!-- Header Pengumuman Umum -->
-                    <div class="flex items-center gap-3 mb-4 sm:mb-6">
-                        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shadow-md flex-shrink-0"
-                            style="background: linear-gradient(135deg, #1A4E8A 0%, #2575B8 100%);">
-                            <i class="fas fa-newspaper text-white text-lg sm:text-xl"></i>
-                        </div>
-                        <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-                            Pengumuman Umum
-                        </h3>
-                    </div>
-
-                    <!-- Grid Cards -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                        @foreach ($pengumumanBiasa as $item)
-                            <div
-                                class="group bg-gray-50 rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-200 hover:border-blue-300 flex flex-col">
-
-                                <!-- Foto -->
-                                <div class="relative h-40 sm:h-48 overflow-hidden">
-                                    <img src="{{ $item->foto ? asset('storage/' . $item->foto) : asset('images/default.jpg') }}"
-                                        alt="Foto Pengumuman"
-                                        class="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-                                    <span
-                                        class="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold text-white shadow-md"
-                                        style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 100%);">
+                {{-- Desktop: Table View --}}
+                <div class="hidden lg:block overflow-hidden rounded-2xl border border-[#CAF0F8]">
+                    <table class="min-w-full text-sm">
+                        <thead>
+                            <tr class="bg-[#023E8A] text-white">
+                                <th class="px-5 py-3.5 text-center font-bold w-14">No</th>
+                                <th class="px-5 py-3.5 font-bold text-left">Judul</th>
+                                <th class="px-5 py-3.5 font-bold text-left">Kategori</th>
+                                <th class="px-5 py-3.5 font-bold text-left">Tanggal</th>
+                                <th class="px-5 py-3.5 text-center font-bold">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-[#CAF0F8]">
+                            @foreach ($pengumumanPdf as $index => $item)
+                            <tr class="hover:bg-[#f0f7ff] transition-colors duration-200">
+                                <td class="px-5 py-3.5 text-center font-bold text-gray-600">
+                                    {{ $pengumumanPdf->firstItem() + $index }}
+                                </td>
+                                <td class="px-5 py-3.5 font-semibold text-gray-800">{{ $item->judul }}</td>
+                                <td class="px-5 py-3.5">
+                                    <span class="bg-blue-100 text-[#023E8A] text-xs font-semibold px-3 py-1 rounded-full">
                                         {{ $item->kategori?->nama_kategori ?? '-' }}
                                     </span>
-                                </div>
-
-                                <!-- Konten -->
-                                <div class="p-4 sm:p-5 flex-1 flex flex-col">
-                                    <h4
-                                        class="font-bold text-base sm:text-lg text-gray-800 mb-2 leading-tight group-hover:text-blue-600 transition-colors duration-300">
-                                        {{ $item->judul }}
-                                    </h4>
-
-                                    <p class="text-gray-600 text-xs sm:text-sm mb-3 flex-1 leading-relaxed">
-                                        {{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 100) }}
-                                    </p>
-
-                                    <div class="flex items-center justify-between mt-auto pt-3 border-t border-gray-200">
-                                        <span class="flex items-center gap-1.5 text-xs text-gray-500">
-                                            <i class="fas fa-calendar-alt text-blue-500"></i>
-                                            {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}
-                                        </span>
-
+                                </td>
+                                <td class="px-5 py-3.5 text-gray-500 text-sm">
+                                    <span class="flex items-center gap-2">
+                                        <i class="fas fa-calendar-alt text-[#0077B6]"></i>
+                                        {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3.5">
+                                    <div class="flex items-center justify-center gap-2">
                                         <a href="{{ route('pengumuman.show', $item->id) }}"
-                                            class="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-700">
-                                            Baca
-                                            <i class="fas fa-arrow-right text-xs"></i>
+                                            class="inline-flex items-center gap-1 bg-[#023E8A] hover:bg-[#0077B6] text-white text-xs font-bold px-4 py-1.5 rounded-full transition-all duration-300">
+                                            <i class="fas fa-eye"></i> Detail
+                                        </a>
+                                        <a href="{{ asset('storage/' . $item->file_pdf) }}" target="_blank"
+                                            class="inline-flex items-center gap-1 border-2 border-[#0077B6] text-[#0077B6] hover:bg-[#0077B6] hover:text-white text-xs font-bold px-4 py-1.5 rounded-full transition-all duration-300">
+                                            <i class="fas fa-download"></i> Download
                                         </a>
                                     </div>
-                                </div>
-
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="mt-6 sm:mt-8">
-                        {{ $pengumumanBiasa->appends(request()->query())->links('vendor.pagination.custom') }}
-                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-            @endif
 
-            <!-- ========== TOMBOL KEMBALI ========== -->
-            <div class="flex justify-center mt-6 sm:mt-8 md:mt-10">
-                <a href="/"
-                    class="inline-block text-white px-6 sm:px-7 md:px-8 py-2 sm:py-2.5 rounded-full font-semibold 
-                      shadow-md hover:shadow-lg transition-all duration-300 text-sm sm:text-base"
-                    style="background: linear-gradient(90deg, #1A4E8A 0%, #2575B8 50%, #1A4E8A 100%);">
-                    Kembali
-                </a>
+                <div class="mt-6">
+                    {{ $pengumumanPdf->appends(request()->query())->links('vendor.pagination.custom') }}
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- ===== PENGUMUMAN UMUM ===== --}}
+        @if ($pengumumanBiasa->count() > 0)
+        <div class="card-hover bg-white rounded-3xl overflow-hidden border border-[#CAF0F8] shadow-sm fade-up fade-up-d3">
+
+            {{-- Card header --}}
+            <div class="bg-gradient-to-r from-[#0077B6] to-[#00B4D8] px-8 sm:px-10 py-5 flex items-center gap-4">
+                <div class="bg-white/20 rounded-xl w-10 h-10 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-newspaper text-white text-lg"></i>
+                </div>
+                <div>
+                    <p class="text-[#CAF0F8] text-xs font-bold tracking-[3px] uppercase">SMA Negeri 1 Pesisir Barat</p>
+                    <h2 class="font-display text-white text-xl sm:text-2xl font-bold">Pengumuman Umum</h2>
+                </div>
             </div>
 
+            <div class="px-8 sm:px-10 py-8 sm:py-10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                    @foreach ($pengumumanBiasa as $item)
+                    <div class="news-card bg-slate-50 rounded-2xl border border-[#CAF0F8] overflow-hidden flex flex-col hover:border-[#0077B6] hover:shadow-lg transition-all duration-300">
+
+                        {{-- Foto --}}
+                        <div class="relative h-44 overflow-hidden">
+                            <img src="{{ $item->foto ? asset('storage/' . $item->foto) : asset('images/default.jpg') }}"
+                                alt="Foto Pengumuman"
+                                class="news-img h-full w-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                            <span class="absolute top-3 right-3 bg-[#023E8A] text-white text-xs font-bold px-3 py-1 rounded-full">
+                                {{ $item->kategori?->nama_kategori ?? '-' }}
+                            </span>
+                        </div>
+
+                        {{-- Konten --}}
+                        <div class="p-4 sm:p-5 flex-1 flex flex-col">
+                            <h4 class="font-bold text-gray-800 text-sm sm:text-base mb-2 leading-snug">
+                                {{ $item->judul }}
+                            </h4>
+                            <p class="text-gray-500 text-xs sm:text-sm mb-3 flex-1 leading-relaxed">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($item->isi), 100) }}
+                            </p>
+                            <div class="flex items-center justify-between pt-3 border-t border-[#CAF0F8]">
+                                <span class="flex items-center gap-1.5 text-xs text-gray-400">
+                                    <i class="fas fa-calendar-alt text-[#0077B6]"></i>
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}
+                                </span>
+                                <a href="{{ route('pengumuman.show', $item->id) }}"
+                                    class="inline-flex items-center gap-1 text-[#0077B6] hover:text-[#023E8A] text-xs font-bold transition-colors duration-200">
+                                    Baca
+                                    <i class="fas fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-8">
+                    {{ $pengumumanBiasa->appends(request()->query())->links('vendor.pagination.custom') }}
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- Tombol Kembali --}}
+        <div class="flex justify-center pt-2 fade-up fade-up-d4">
+            <a href="/"
+                class="inline-flex items-center gap-2 bg-[#023E8A] hover:bg-[#0077B6] text-white font-semibold px-8 py-3 rounded-full text-sm transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+                </svg>
+                Kembali ke Beranda
+            </a>
         </div>
 
     </div>
+</div>
 
 @endsection

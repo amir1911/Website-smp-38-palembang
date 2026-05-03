@@ -25,13 +25,13 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('admin-smp38palembang')
+            ->path('admin-sma1pesisirtengah')
             ->login() // gunakan login bawaan Filament
             
             
             // ->favicon(asset('storage/logo/logosmp.png'))
             // ->brandLogo(asset('storage/logo/logosmp.png'))
-            ->brandName('SMPN 38 Palembang')
+            ->brandName('SMAN 1 Pesisir Tengah')
             ->darkMode(true) // aktifkan mode gelap otomatis
             ->sidebarCollapsibleOnDesktop() // sidebar bisa dilipat
             ->colors([

@@ -29,18 +29,18 @@ class StatistikResource extends Resource
                     ->numeric()
                     ->required(),
 
-                TextInput::make('kelas7')
-                    ->label('Jumlah Siswa Kelas 7')
+                TextInput::make('kelas10')
+                    ->label('Jumlah Siswa Kelas 10')
                     ->numeric()
                     ->required(),
 
-                TextInput::make('kelas8')
-                    ->label('Jumlah Siswa Kelas 8')
+                TextInput::make('kelas11')
+                    ->label('Jumlah Siswa Kelas 11')
                     ->numeric()
                     ->required(),
 
-                TextInput::make('kelas9')
-                    ->label('Jumlah Siswa Kelas 9')
+                TextInput::make('kelas12')
+                    ->label('Jumlah Siswa Kelas 12')
                     ->numeric()
                     ->required(),
 
@@ -60,18 +60,18 @@ class StatistikResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('kelas7')
-                    ->label('Kelas 7')
+                Tables\Columns\TextColumn::make('kelas10')
+                    ->label('Kelas 10')
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('kelas8')
-                    ->label('Kelas 8')
+                Tables\Columns\TextColumn::make('kelas11')
+                    ->label('Kelas 11')
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('kelas9')
-                    ->label('Kelas 9')
+                Tables\Columns\TextColumn::make('kelas12')
+                    ->label('Kelas 12')
                     ->sortable()
                     ->searchable(),
 

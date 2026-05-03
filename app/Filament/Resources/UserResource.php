@@ -48,19 +48,19 @@ class UserResource extends Resource
                     'admin' => 'Admin',
                 ])
                 ->default('admin')
-                ->disabled(fn() => !Auth::user()?->isSuperAdmin()), // ✅ hanya superadmin bisa ubah role
+                ->disabled(fn () => Auth::user()?->role !== 'super_admin'), // ✅ FIX
         ]);
     }
 
     public static function table(Table $table): Table
     {
-        // ✅ Pastikan format waktu pakai Bahasa Indonesia
         App::setLocale('id');
         Carbon::setLocale('id');
+
         return $table
             ->modifyQueryUsing(function ($query) {
-                // ✅ Admin hanya bisa lihat dirinya sendiri
-                if (!Auth::user()->isSuperAdmin()) {
+                // ✅ Admin hanya lihat dirinya sendiri
+                if (Auth::user()?->role !== 'super_admin') {
                     $query->where('id', Auth::id());
                 }
             })
@@ -80,7 +80,6 @@ class UserResource extends Resource
                         'warning' => 'admin',
                     ]),
 
-                // ✅ Kolom waktu dibuat
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->getStateUsing(function ($record) {
@@ -89,38 +88,38 @@ class UserResource extends Resource
                             ->translatedFormat('l, d F Y H:i') . ' WIB';
                     })
                     ->sortable(),
-
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+
                 Tables\Actions\DeleteAction::make()
                     ->label('Delete')
                     ->color('danger')
                     ->icon('heroicon-o-trash')
-                    ->requiresConfirmation() // munculkan konfirmasi sebelum hapus
-                    ->visible(fn() => Auth::user()?->isSuperAdmin()), // hanya super admin bisa hapus
+                    ->requiresConfirmation()
+                    ->visible(fn () => Auth::user()?->role === 'super_admin'), // ✅ FIX
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->visible(fn() => Auth::user()->isSuperAdmin()), // ✅ hanya superadmin bisa delete banyak
+                        ->visible(fn () => Auth::user()?->role === 'super_admin'), // ✅ FIX
                 ]),
             ]);
     }
 
-    // ✅ Super Admin bisa create user baru, admin tidak bisa
+    // ✅ Super Admin saja yang bisa create
     public static function canCreate(): bool
     {
-        return Auth::user()?->isSuperAdmin();
+        return Auth::user()?->role === 'super_admin';
     }
 
-    // ✅ Super Admin bisa hapus user, admin tidak
+    // ✅ Super Admin saja yang bisa delete
     public static function canDelete($record): bool
     {
-        return Auth::user()?->isSuperAdmin();
+        return Auth::user()?->role === 'super_admin';
     }
 
-    // ✅ Super Admin bisa lihat semua user, admin hanya dirinya sendiri (sudah di filter di query)
+    // ✅ Semua user login boleh lihat (filter sudah di query)
     public static function canViewAny(): bool
     {
         return Auth::check();
@@ -129,7 +128,8 @@ class UserResource extends Resource
     // ✅ Admin hanya bisa edit dirinya sendiri
     public static function canEdit($record): bool
     {
-        if (Auth::user()->isSuperAdmin()) return true;
+        if (Auth::user()?->role === 'super_admin') return true;
+
         return Auth::id() === $record->id;
     }
 

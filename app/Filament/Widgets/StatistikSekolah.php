@@ -19,18 +19,18 @@ class StatistikSekolah extends BaseWidget
                 ->descriptionIcon('heroicon-o-academic-cap')
                 ->color('success'),
 
-            Stat::make('Kelas 7', $data?->kelas7 ?? 0)
-                ->description('Jumlah Siswa Kelas 7')
+            Stat::make('Kelas 10', $data?->kelas10 ?? 0)
+                ->description('Jumlah Siswa Kelas 10')
                 ->descriptionIcon('heroicon-o-user-group')
                 ->color('primary'),
 
-            Stat::make('Kelas 8', $data?->kelas8 ?? 0)
-                ->description('Jumlah Siswa Kelas 8')
+            Stat::make('Kelas 11', $data?->kelas11 ?? 0)
+                ->description('Jumlah Siswa Kelas 11')
                 ->descriptionIcon('heroicon-o-user-group')
                 ->color('info'),
 
-            Stat::make('Kelas 9', $data?->kelas9 ?? 0)
-                ->description('Jumlah Siswa Kelas 9')
+            Stat::make('Kelas 12', $data?->kelas12 ?? 0)
+                ->description('Jumlah Siswa Kelas 12')
                 ->descriptionIcon('heroicon-o-user-group')
                 ->color('warning'),
 

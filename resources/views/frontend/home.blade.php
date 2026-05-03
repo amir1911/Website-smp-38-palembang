@@ -1,545 +1,892 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Import Google Font Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- ========================================
-         CAROUSEL SECTION
-         ======================================== -->
-    <section class="relative w-full overflow-hidden font-[Poppins] bg-gradient-to-b from-white via-blue-50/30 to-white"
-        x-data="{
-            current: 1,
-            total: {{ count($carousels) }},
-            autoplay: true,
-            progress: 0
-        }" x-init="setInterval(() => {
-            if (autoplay) {
-                current = current === total ? 1 : current + 1;
-                progress = 0;
-            }
-        }, 6000);
-        
+    <style>
+        /*
+        ================================================
+        PALET WARNA BIRU LANGIT — KONSISTEN DI SELURUH HALAMAN
+        ------------------------------------------------
+        #0077B6  → Biru Langit   (primary)
+        #023E8A  → Biru Tua      (primary-dark)
+        #00B4D8  → Biru Cyan     (primary-light)
+        #90E0EF  → Biru Muda     (accent-mid)
+        #CAF0F8  → Biru Pucat    (primary-subtle)
+        #F4A261  → Oranye        (accent warm)
+        #FFF3E8  → Krem Muda     (accent-light)
+        ================================================
+        */
+        :root {
+            --p:     #0077B6;
+            --pd:    #023E8A;
+            --pl:    #00B4D8;
+            --ps:    #CAF0F8;
+            --pm:    #90E0EF;
+            --acc:   #F4A261;
+            --acc-l: #FFF3E8;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-display { font-family: 'Playfair Display', serif; }
+
+        /* Diagonal stripes texture */
+        .stripe-bg {
+            background-image: repeating-linear-gradient(
+                -45deg,
+                transparent, transparent 10px,
+                rgba(255,255,255,0.03) 10px,
+                rgba(255,255,255,0.03) 20px
+            );
+        }
+
+        /* Dot grid pattern */
+        .dot-grid {
+            background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        /* Wave divider */
+        .wave-divider svg { display: block; }
+
+        /* Scrollbar hide */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Glow button */
+        .glow-btn {
+            box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.4);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .glow-btn:hover {
+            box-shadow: 0 0 24px 4px rgba(0, 180, 216, 0.35);
+            transform: translateY(-2px);
+        }
+
+        /* Card hover */
+        .card-hover {
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 48px rgba(2, 62, 138, 0.18);
+        }
+
+        /* Stat card ring */
+        .stat-ring {
+            border: 4px solid rgba(255,255,255,0.2);
+            box-shadow: inset 0 0 24px rgba(0,0,0,0.12), 0 8px 32px rgba(2,62,138,0.3);
+        }
+
+        /* Float badge animation */
+        @keyframes floatY {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-8px); }
+        }
+        .float-badge { animation: floatY 3.5s ease-in-out infinite; }
+
+        /* Logo float */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-12px); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        /* FAQ answer transition */
+        [x-cloak] { display: none !important; }
+
+        * { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+
+    <!-- =============================================
+         HERO / CAROUSEL
+         ============================================= -->
+   <section class="relative w-full overflow-hidden"
+    x-data="{
+        current: 1,
+        total: {{ count($carousels) }},
+        autoplay: true,
+        progress: 0
+    }"
+    x-init="
         setInterval(() => {
-            if (autoplay) {
-                progress = progress >= 100 ? 0 : progress + 1.667;
-            }
-        }, 100);" @mouseenter="autoplay = false" @mouseleave="autoplay = true">
+            if (autoplay) { current = current === total ? 1 : current + 1; progress = 0; }
+        }, 6000);
+        setInterval(() => {
+            if (autoplay) { progress = progress >= 100 ? 0 : progress + 1.667; }
+        }, 100);
+    "
+    @mouseenter="autoplay = false"
+    @mouseleave="autoplay = true">
 
-        <!-- Slide Items Wrapper -->
-        <div class="relative w-full h-[350px] sm:h-[450px] md:h-[550px] lg:h-[600px] xl:h-[650px] overflow-hidden">
-            <template x-for="(item, index) in {{ $carousels->toJson() }}" :key="index">
-                <div x-show="current === index + 1" class="absolute inset-0 w-full h-full"
-                    x-transition:enter="transition-all duration-700 ease-out"
-                    x-transition:enter-start="opacity-0 translate-x-40" x-transition:enter-end="opacity-100 translate-x-0"
-                    x-transition:leave="transition-all duration-700 ease-in"
-                    x-transition:leave-start="opacity-100 translate-x-0" x-transition:leave-end="opacity-0 -translate-x-40">
+    {{-- Slides --}}
+    <div class="relative w-full h-[480px] sm:h-[540px] md:h-[620px] lg:h-[700px] xl:h-[740px] overflow-hidden">
+        <template x-for="(item, index) in {{ $carousels->toJson() }}" :key="index">
+            <div x-show="current === index + 1"
+                class="absolute inset-0 w-full h-full"
+                x-transition:enter="transition-all duration-700 ease-out"
+                x-transition:enter-start="opacity-0 scale-105"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition-all duration-500 ease-in"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-95">
 
-                    <!-- Image Slide -->
-                    <div class="relative w-full h-full">
-                        <img :src="'/storage/' + item.gambar" :alt="item.judul" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/30 to-transparent">
-                        </div>
-                    </div>
+                {{-- Background image --}}
+                <img :src="'/storage/' + item.gambar" :alt="item.judul"
+                    class="w-full h-full object-cover">
 
-                    <!-- Text Content -->
-                    <div class="absolute left-0 right-0 bottom-28 px-6 sm:px-8 md:px-12 lg:px-16">
-                        <div class="w-full max-w-7xl mx-auto">
-                            <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4"
-                                x-text="item.judul"></h2>
-                            <p class="text-sm sm:text-base md:text-lg text-blue-50 max-w-2xl leading-relaxed"
-                                x-text="item.deskripsi"></p>
+                {{-- Overlay gradients --}}
+                <div class="absolute inset-0 bg-gradient-to-r from-[#023E8A]/95 via-[#023E8A]/65 to-[#023E8A]/10"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#023E8A]/80 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 dot-grid opacity-20"></div>
+
+                {{-- Decorative side accent --}}
+                <div class="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#00B4D8]/0 via-[#00B4D8]/60 to-[#00B4D8]/0"></div>
+
+                {{-- Content --}}
+                <div class="absolute inset-0 flex items-center">
+                    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
+                        <div class="max-w-2xl">
+
+                            {{-- Tag badge --}}
+                            <div x-show="current === index + 1"
+                                x-transition:enter="transition-all duration-500 delay-100"
+                                x-transition:enter-start="opacity-0 -translate-y-3"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                class="inline-flex items-center gap-2 bg-[#00B4D8]/20 border border-[#00B4D8]/40 text-[#CAF0F8] text-xs sm:text-sm font-semibold px-4 py-2 rounded-full mb-4 backdrop-blur-sm">
+                                <span class="w-2 h-2 bg-[#F4A261] rounded-full animate-pulse"></span>
+                                <span x-text="item.tag ?? 'SMAN 1 PESISIR TENGAH'"></span>
+                            </div>
+
+                            {{-- Title --}}
+                            <div x-show="current === index + 1"
+                                x-transition:enter="transition-all duration-600 delay-200"
+                                x-transition:enter-start="opacity-0 translate-y-4"
+                                x-transition:enter-end="opacity-100 translate-y-0">
+                                <h1 class="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-4"
+                                    x-text="item.judul"></h1>
+                            </div>
+
+                            {{-- Meta info row --}}
+                            <div x-show="current === index + 1"
+                                x-transition:enter="transition-all duration-600 delay-300"
+                                x-transition:enter-start="opacity-0 translate-y-4"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                class="flex flex-wrap items-center gap-4 mb-4">
+
+                                {{-- Tanggal --}}
+                                <template x-if="item.tanggal">
+                                    <div class="flex items-center gap-1.5 text-[#CAF0F8]/70 text-xs sm:text-sm">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span x-text="item.tanggal"></span>
+                                    </div>
+                                </template>
+
+                                {{-- Kategori --}}
+                                <template x-if="item.kategori">
+                                    <div class="flex items-center gap-1.5 text-[#CAF0F8]/70 text-xs sm:text-sm">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A2 2 0 013 12V7a2 2 0 012-2z"/>
+                                        </svg>
+                                        <span x-text="item.kategori"></span>
+                                    </div>
+                                </template>
+                            </div>
+
+                            {{-- Description --}}
+                            <div x-show="current === index + 1"
+                                x-transition:enter="transition-all duration-600 delay-[350ms]"
+                                x-transition:enter-start="opacity-0 translate-y-4"
+                                x-transition:enter-end="opacity-100 translate-y-0">
+                                <p class="text-[#CAF0F8] text-sm sm:text-base md:text-lg leading-relaxed mb-7 max-w-xl"
+                                    x-text="item.deskripsi"></p>
+                            </div>
+
+                            {{-- CTA Buttons --}}
+                            <div x-show="current === index + 1"
+                                x-transition:enter="transition-all duration-600 delay-[420ms]"
+                                x-transition:enter-start="opacity-0 translate-y-4"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                class="flex flex-wrap gap-3">
+                                <a href="/profile"
+                                    class="glow-btn inline-flex items-center gap-2 bg-[#0077B6] hover:bg-[#00B4D8] text-white font-semibold px-6 py-3 rounded-full text-sm transition-all duration-200 hover:shadow-lg hover:shadow-[#0077B6]/30 hover:-translate-y-0.5">
+                                    Tentang Sekolah
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                                    </svg>
+                                </a>
+                                <a href="{{ route('pengumuman.index') }}"
+                                    class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/30 font-semibold px-6 py-3 rounded-full text-sm backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                                    </svg>
+                                    Pengumuman
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+            </div>
+        </template>
+    </div>
+
+    {{-- Prev / Next Buttons --}}
+    <button @click="current = current === 1 ? total : current - 1; progress = 0;"
+        class="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#0077B6] text-white border border-white/25 rounded-full p-3 backdrop-blur-sm hover:scale-110 hover:border-[#0077B6] transition-all duration-200 z-10 group">
+        <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
+    <button @click="current = current === total ? 1 : current + 1; progress = 0;"
+        class="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-[#0077B6] text-white border border-white/25 rounded-full p-3 backdrop-blur-sm hover:scale-110 hover:border-[#0077B6] transition-all duration-200 z-10 group">
+        <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+    </button>
+
+    {{-- Bottom Bar --}}
+    <div class="absolute bottom-0 left-0 right-0 bg-[#023E8A]/85 backdrop-blur-md border-t border-white/10">
+
+        {{-- Thumbnail strip --}}
+        {{-- <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-3 pb-1 hidden sm:flex gap-2">
+            <template x-for="(item, index) in {{ $carousels->toJson() }}" :key="'thumb-' + index">
+                <button @click="current = index + 1; progress = 0;"
+                    class="relative flex-1 h-14 rounded-lg overflow-hidden border-2 transition-all duration-300"
+                    :class="current === index + 1
+                        ? 'border-[#00B4D8] opacity-100'
+                        : 'border-transparent opacity-50 hover:opacity-75'">
+                    <img :src="'/storage/' + item.gambar" :alt="item.judul"
+                        class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-[#023E8A]/40"></div>
+                    <div class="absolute inset-0 flex items-end justify-center pb-1 px-1">
+                        <span class="text-white text-[10px] font-semibold truncate leading-tight"
+                            x-text="item.judul"></span>
+                    </div>
+                    {{-- Active indicator line --}}
+                    {{-- <div x-show="current === index + 1"
+                        class="absolute top-0 left-0 right-0 h-0.5 bg-[#00B4D8]"></div>
+                </button>
             </template>
+        </div> --}} --}}
+
+        {{-- Dots + counter --}}
+        <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-3 flex items-center justify-between gap-4">
+
+            {{-- Animated dots --}}
+            <div class="flex items-center gap-2">
+                <template x-for="i in total" :key="'dot-' + i">
+                    <button @click="current = i; progress = 0;"
+                        class="relative overflow-hidden rounded-full transition-all duration-300 cursor-pointer"
+                        :class="current === i
+                            ? 'w-12 h-2.5 bg-[#90E0EF]'
+                            : 'w-2.5 h-2.5 bg-white/30 hover:bg-white/60'">
+                        <div x-show="current === i"
+                            class="absolute inset-y-0 left-0 bg-[#F4A261] rounded-full transition-all"
+                            :style="`width: ${progress}%`"></div>
+                    </button>
+                </template>
+            </div>
+
+            {{-- Counter + pause --}}
+            <div class="flex items-center gap-4">
+                <span class="text-white/75 text-sm font-semibold tabular-nums tracking-wide">
+                    <span x-text="String(current).padStart(2,'0')"></span>
+                    <span class="text-[#90E0EF] mx-1">/</span>
+                    <span x-text="String(total).padStart(2,'0')"></span>
+                </span>
+
+                {{-- Pause / Play --}}
+                <button @click="autoplay = !autoplay; progress = 0;"
+                    class="w-8 h-8 flex items-center justify-center rounded-full border border-white/20 text-white/60 hover:text-white hover:border-white/50 transition-all duration-200">
+                    <svg x-show="autoplay" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                    </svg>
+                    <svg x-show="!autoplay" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </button>
+            </div>
         </div>
+    </div>
+</section>
 
-        <!-- Navigation Buttons -->
-        <div class="absolute inset-0 flex justify-between items-center px-4 sm:px-6 md:px-8 pointer-events-none">
-            <button @click="current = current === 1 ? total : current - 1; progress = 0;"
-                class="pointer-events-auto group bg-white hover:bg-blue-600 text-blue-600 hover:text-white rounded-full p-3 sm:p-4 transition-all duration-300 transform hover:scale-110 hover:-translate-x-1 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-            </button>
+    <!-- =============================================
+         QUICK STATS BAR
+         ============================================= -->
+    <section class="bg-[#0077B6] py-5 stripe-bg">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-3 divide-x divide-white/20">
 
-            <button @click="current = current === total ? 1 : current + 1; progress = 0;"
-                class="pointer-events-auto group bg-white hover:bg-blue-600 text-blue-600 hover:text-white rounded-full p-3 sm:p-4 transition-all duration-300 transform hover:scale-110 hover:translate-x-1 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-            </button>
+            <div class="flex items-center justify-center gap-3 px-4">
+                <div class="bg-white/15 rounded-xl p-2">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-white/70 text-xs">Akreditasi</p>
+                    <p class="text-white font-bold text-sm">A</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-3 px-4">
+                <div class="bg-white/15 rounded-xl p-2">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-white/70 text-xs">Kurikulum</p>
+                    <p class="text-white font-bold text-sm">Merdeka</p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center gap-3 px-4">
+                <div class="bg-white/15 rounded-xl p-2">
+                    <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-white/70 text-xs">Lokasi</p>
+                    <p class="text-white font-bold text-sm">Pesisir Barat</p>
+                </div>
+            </div>
+
         </div>
+    </section>
 
-        <!-- Indicators -->
-        <div
-            class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent backdrop-blur-sm py-4 sm:py-5">
-            <div class="max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-between">
-                <div class="flex items-center space-x-2 sm:space-x-3">
-                    <template x-for="i in total" :key="i">
-                        <button @click="current = i; progress = 0;" class="group relative transition-all duration-300"
-                            :class="current === i ? 'w-12 sm:w-16' : 'w-8 sm:w-10'">
+    <!-- =============================================
+         SAMBUTAN KEPALA SEKOLAH
+         ============================================= -->
+    <section class="py-20 sm:py-24 relative overflow-hidden bg-white">
 
-                            <div class="h-1 sm:h-1.5 bg-blue-200 rounded-full overflow-hidden">
-                                <div x-show="current === i"
-                                    class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-100"
-                                    :style="`width: ${current === i ? progress : 0}%`">
-                                </div>
-                            </div>
+        <!-- Dekorasi background -->
+        <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#CAF0F8] rounded-full opacity-40 -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#CAF0F8] rounded-full opacity-30 translate-y-1/2 -translate-x-1/3 pointer-events-none"></div>
 
-                            <div x-show="current === i"
-                                class="absolute -top-8 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                                Slide <span x-text="i"></span>
-                            </div>
-                        </button>
-                    </template>
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+
+            <!-- Section label -->
+            <div class="flex flex-col items-center mb-14" data-aos="fade-up">
+                <span class="text-[#0077B6] text-xs font-bold tracking-[4px] uppercase mb-3">Sambutan</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold text-[#023E8A] text-center">Kepala Sekolah</h2>
+                <div class="flex items-center gap-2 mt-4">
+                    <span class="w-8 h-0.5 bg-[#00B4D8] rounded-full"></span>
+                    <span class="w-3 h-3 bg-[#F4A261] rounded-full"></span>
+                    <span class="w-8 h-0.5 bg-[#00B4D8] rounded-full"></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-center">
+
+                <!-- Foto -->
+                <div class="lg:col-span-2 flex justify-center" data-aos="fade-right" data-aos-delay="100">
+                    <div class="relative">
+
+                        <!-- Floating badge -->
+                        <div class="float-badge absolute -top-5 -right-5 bg-[#F4A261] text-white text-xs font-bold px-4 py-2 rounded-2xl shadow-lg z-20">
+                            Kepala Sekolah
+                        </div>
+
+                        <!-- Blue frame -->
+                        <div class="absolute -inset-3 bg-gradient-to-br from-[#0077B6] to-[#023E8A] rounded-3xl opacity-20 rotate-3"></div>
+
+                        <!-- Foto -->
+                        <div class="relative bg-gradient-to-b from-[#CAF0F8] to-[#90E0EF] p-3 rounded-3xl shadow-2xl">
+                            <img src="{{ asset('storage/guru/kepala sekolah.png') }}"
+                                alt="Kepala Sekolah"
+                                class="rounded-2xl w-[260px] sm:w-[300px] md:w-[320px] h-[360px] sm:h-[400px] md:h-[440px] object-cover">
+                        </div>
+
+                        <!-- Name bar -->
+                        <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-[#023E8A] text-white text-center px-8 py-3 rounded-2xl shadow-xl z-20 whitespace-nowrap">
+                            <p class="font-bold text-sm">Kepala SMAN 1 Pesisir Tengah</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2 text-sm sm:text-base font-semibold text-blue-700">
-                        <span x-text="current"></span>
-                        <span class="text-blue-400">/</span>
-                        <span x-text="total"></span>
+                <!-- Teks sambutan -->
+                <div class="lg:col-span-3" data-aos="fade-left" data-aos-delay="200">
+
+                    <!-- Tanda kutip dekoratif -->
+                    <div class="text-[#CAF0F8] font-display text-8xl leading-none mb-4 select-none">"</div>
+
+                    <div class="space-y-5 text-gray-600 text-sm sm:text-base leading-relaxed">
+                        <p class="italic text-[#0077B6] font-semibold text-lg">
+                            Assalamu'alaikum warahmatullahi wabarakatuh.
+                        </p>
+                        <p class="text-justify">
+                            Selamat datang di website resmi <span class="font-semibold text-[#023E8A]">SMA Negeri 1 Pesisir Tengah</span>.
+                            Website ini kami hadirkan sebagai sarana informasi dan komunikasi bagi siswa, orang tua,
+                            serta seluruh masyarakat Pesisir Barat yang ingin mengenal lebih dekat sekolah kami.
+                        </p>
+                        <p class="text-justify">
+                            Sebagai lembaga pendidikan di Kabupaten Pesisir Barat, Lampung, kami berkomitmen untuk
+                            menciptakan lingkungan belajar yang nyaman, berkarakter, dan berprestasi. Melalui kerja sama
+                            yang erat antara guru, orang tua, dan peserta didik, kami terus berupaya mengembangkan
+                            potensi siswa agar siap menghadapi tantangan masa depan.
+                        </p>
+                        <p class="text-justify">
+                            Semoga website ini dapat memberikan manfaat dan menjadi jembatan transparansi serta
+                            pelayanan yang lebih baik bagi seluruh warga sekolah dan masyarakat Pesisir Barat.
+                        </p>
                     </div>
 
-                    <button @click="autoplay = !autoplay; progress = 0;"
-                        class="bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg p-2 transition-all duration-300">
-                        <svg x-show="autoplay" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="currentColor">
-                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                    <div class="mt-8 pt-6 border-t border-[#CAF0F8]">
+                        <p class="text-[#0077B6] italic font-medium mb-5">
+                            Wassalamu'alaikum warahmatullahi wabarakatuh.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-1 h-14 bg-gradient-to-b from-[#00B4D8] to-[#0077B6] rounded-full"></div>
+                            <div>
+                                <p class="font-bold text-lg text-[#023E8A]">Kepala Sekolah</p>
+                                <p class="text-sm text-gray-500">SMA Negeri 1 Pesisir Tengah</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider -mb-1 bg-white">
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#023E8A" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+    </div>
+
+    <!-- =============================================
+         PROFIL SEKOLAH
+         ============================================= -->
+    <section class="bg-[#023E8A] py-20 sm:py-24 relative overflow-hidden stripe-bg">
+
+        <!-- Dekorasi lingkaran -->
+        <div class="absolute top-10 right-10 w-64 h-64 border border-white/10 rounded-full pointer-events-none"></div>
+        <div class="absolute top-20 right-20 w-40 h-40 border border-white/10 rounded-full pointer-events-none"></div>
+        <div class="absolute bottom-10 left-10 w-48 h-48 border border-white/10 rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10">
+
+            <!-- Teks -->
+            <div data-aos="fade-right">
+                <span class="text-[#90E0EF] text-xs font-bold tracking-[4px] uppercase mb-4 block">Tentang Kami</span>
+
+                <h2 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                    SMA Negeri 1<br>
+                    <span class="text-[#00B4D8]">Pesisir Tengah</span>
+                </h2>
+
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="w-14 h-1 bg-[#F4A261] rounded-full"></span>
+                    <span class="w-8 h-1 bg-[#00B4D8] rounded-full"></span>
+                    <span class="w-4 h-1 bg-white/40 rounded-full"></span>
+                </div>
+
+                <p class="text-[#CAF0F8] text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
+                    Sekolah menengah atas negeri di Pesisir Barat, Lampung yang berkomitmen mencetak
+                    generasi unggul, berakhlak mulia, dan berprestasi dalam akademik maupun non-akademik.
+                </p>
+
+                <!-- Feature list -->
+                <div class="space-y-3 mb-10">
+                    @foreach(['Lingkungan belajar yang kondusif dan asri', 'Tenaga pendidik profesional dan berpengalaman', 'Program ekstrakurikuler yang beragam'] as $f)
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 bg-[#00B4D8] rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-[#CAF0F8] text-sm">{{ $f }}</span>
+                        </div>
+                    @endforeach
+                </div>
+
+                <a href="/profile"
+                    class="glow-btn inline-flex items-center gap-2 bg-[#F4A261] hover:bg-[#e8924f] text-white font-bold px-8 py-4 rounded-full text-sm">
+                    Lihat Profil Lengkap
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Logo / Visual -->
+            <div data-aos="fade-left" data-aos-delay="150" class="flex justify-center lg:justify-end">
+                <div class="relative">
+
+                    <!-- Card utama -->
+                    <div class="w-[320px] h-[320px] sm:w-[380px] sm:h-[380px]
+                                bg-white/10 backdrop-blur-xl border border-white/20
+                                rounded-[2rem] flex items-center justify-center
+                                shadow-[0_20px_60px_rgba(0,0,0,0.4)]">
+                        <!-- Glow -->
+                        <div class="absolute inset-0 bg-[#00B4D8]/20 blur-3xl rounded-[2rem] pointer-events-none"></div>
+                        <!-- Logo -->
+                        <img src="{{ asset('storage/logo/logo sma.png') }}"
+                            alt="Logo SMAN 1 Pesisir Tengah"
+                            class="relative w-[70%] h-[70%] object-contain drop-shadow-2xl animate-float">
+                    </div>
+
+                    <!-- Badge kanan atas -->
+                    <div class="float-badge absolute -top-6 -right-6 bg-[#F4A261] rounded-2xl px-5 py-4 shadow-2xl">
+                        <p class="text-white font-bold text-sm">Kurikulum</p>
+                        <p class="text-white/80 text-xs">Merdeka</p>
+                    </div>
+
+                    <!-- Badge kiri bawah -->
+                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl px-6 py-4 shadow-2xl">
+                        <p class="text-[#023E8A] font-bold text-3xl text-center">A</p>
+                        <p class="text-gray-500 text-xs">Akreditasi</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-divider -mt-1 bg-[#023E8A]">
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#f8fafc" d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,20 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+    </div>
+
+    <!-- =============================================
+         EKSTRAKURIKULER
+         ============================================= -->
+    <section class="py-20 sm:py-24 bg-slate-50 relative overflow-hidden"
+        x-data="{
+            scrollLeft() { $refs.carousel.scrollBy({ left: -340, behavior: 'smooth' }) },
+            scrollRight() { $refs.carousel.scrollBy({ left: 340, behavior: 'smooth' }) }
+        }">
+
+        <!-- Subtle dot background -->
+        <div class="absolute inset-0 opacity-5 pointer-events-none"
+            style="background-image: radial-gradient(circle, #0077B6 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+
+            <!-- Header -->
+            <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-10 gap-4" data-aos="fade-up">
+                <div>
+                    <span class="text-[#0077B6] text-xs font-bold tracking-[4px] uppercase mb-2 block">Kegiatan</span>
+                    <h2 class="font-display text-4xl sm:text-5xl font-bold text-[#023E8A]">Ekstrakurikuler</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button @click="scrollLeft"
+                        class="bg-white hover:bg-[#0077B6] text-[#0077B6] hover:text-white border border-[#0077B6] rounded-full p-3 transition shadow-md">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <svg x-show="!autoplay" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 sm:w-5 sm:h-5"
-                            fill="currentColor">
-                            <path d="M8 5v14l11-7z" />
+                    </button>
+                    <button @click="scrollRight"
+                        class="bg-[#0077B6] hover:bg-[#023E8A] text-white rounded-full p-3 transition shadow-md">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- ========================================
-         SAMBUTAN KEPALA SEKOLAH
-         ======================================== -->
-<section class="bg-[#1D4E89] text-white py-16 sm:py-20 md:py-24 font-poppins relative overflow-hidden">
-    
-    <!-- Background Wave Pattern -->
-    <div class="absolute inset-0 opacity-10">
-        <svg class="absolute bottom-0 w-full" viewBox="0 0 1440 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill="white" fill-opacity="0.5"
-                d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64V320H0Z" />
-        </svg>
-    </div>
+        <!-- Cards carousel -->
+        <div x-ref="carousel"
+            class="flex gap-6 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-4 px-6 sm:px-[calc((100vw-1220px)/2+24px)] cursor-grab active:cursor-grabbing">
 
-    <!-- Floating Decorative Elements -->
-    <div class="absolute top-20 left-10 w-16 h-16 border-4 border-white/20 rounded-lg rotate-45 animate-pulse"></div>
-    <div class="absolute top-40 right-20 w-12 h-12 bg-blue-400/20 rounded-full animate-bounce"></div>
-    <div class="absolute bottom-32 left-1/4 w-20 h-20 border-4 border-white/10 rounded-lg"></div>
+            @foreach ($ekstrakurikulers as $index => $item)
+                <div class="card-hover flex-shrink-0 w-72 sm:w-80 bg-white rounded-3xl overflow-hidden shadow-md snap-center"
+                    data-aos="fade-up" data-aos-delay="{{ $index * 80 }}">
 
-    <!-- Main Container -->
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center px-6 sm:px-8 relative z-10">
-
-        <!-- Left Column: Photo Section -->
-        <div class="flex flex-col items-center">
-            
-            <!-- Section Title -->
-            <div class="mb-8 text-center">
-                <h3 class="text-3xl sm:text-4xl md:text-5xl font-bold drop-shadow-lg">
-                    Sambutan<br />
-                    <span class="text-blue-300">Kepala Sekolah</span>
-                </h3>
-            </div>
-
-            <!-- Photo Frame Container -->
-            <div class="relative group mb-6">
-                
-                <!-- Rotating Background Effect -->
-                <div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-500 rounded-3xl rotate-3 group-hover:rotate-6 transition-all duration-500">
-                </div>
-
-                <!-- White Frame -->
-                <div class="relative bg-white p-3 rounded-3xl shadow-2xl group-hover:-translate-y-2 transition-all duration-500">
-                    
-                    <!-- Photo Container -->
-                    <div class="relative rounded-2xl overflow-hidden w-[280px] sm:w-[320px] md:w-[360px] lg:w-[320px] xl:w-[380px]">
-                        
-                        <!-- Principal Photo -->
-                        <img src="{{ asset('storage/guru/kepalasekolah.jpeg') }}"
-                            alt="Kepala Sekolah"
-                            class="w-full h-[360px] sm:h-[400px] md:h-[450px] lg:h-[500px] xl:h-[550px] object-cover group-hover:scale-105 transition duration-700">
-                        
-                        <!-- Hover Overlay -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-blue-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-500">
+                    <!-- Gambar -->
+                    <div class="relative h-52 bg-[#CAF0F8] overflow-hidden">
+                        <img src="{{ asset('storage/' . $item->foto) }}"
+                            alt="{{ $item->nama_kegiatan }}"
+                            class="w-full h-full object-contain p-4 hover:scale-105 transition duration-500">
+                        <!-- Nomor badge -->
+                        <div class="absolute top-3 left-3 bg-[#023E8A] text-white text-xs font-bold w-7 h-7 rounded-full flex items-center justify-center">
+                            {{ $index + 1 }}
                         </div>
                     </div>
 
-                    <!-- Name Badge -->
-                    <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-white text-[#1D4E89] px-8 py-3 rounded-full shadow-xl">
-                        <h2 class="text-xl sm:text-2xl font-bold whitespace-nowrap">
-                            Ervinna Hasdawaty, S.Pd
-                        </h2>
-                    </div>
-                </div>
-            </div>
+                    <!-- Konten -->
+                    <div class="p-6">
+                        <h3 class="font-bold text-[#023E8A] text-lg capitalize mb-2">{{ $item->nama_kegiatan }}</h3>
+                        <div class="w-10 h-1 bg-[#00B4D8] rounded-full mb-3"></div>
 
-            <!-- Role Badge -->
-            <div class="flex items-center justify-center gap-3 bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full border border-white/30 shadow-lg">
-                <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <p class="text-sm sm:text-base font-semibold">Kepala Sekolah</p>
-            </div>
-        </div>
-
-        <!-- Right Column: Message Content -->
-       <div>
-    <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 sm:p-10 shadow-2xl border border-white/20">
-        <div class="space-y-5 text-sm sm:text-base leading-relaxed">
-
-            <p class="italic text-blue-300 font-medium text-lg">
-                Assalamu’alaikum warahmatullahi wabarakatuh.
-            </p>
-
-            <p class="text-justify text-white/90">
-                Selamat datang di website resmi <span class="font-semibold text-blue-300">SMP Negeri 38 Palembang</span>.
-                Website ini kami hadirkan sebagai sarana informasi dan komunikasi bagi siswa, orang tua, serta masyarakat 
-                yang ingin mengenal lebih dekat sekolah kami.
-            </p>
-
-            <p class="text-justify text-white/90">
-                Sebagai lembaga pendidikan, kami berkomitmen untuk menciptakan lingkungan belajar yang nyaman, 
-                berkarakter, dan berprestasi. Melalui kerja sama antara guru, orang tua, dan peserta didik, 
-                kami terus berupaya mengembangkan potensi siswa agar siap menghadapi tantangan masa depan.
-            </p>
-
-            <p class="text-justify text-white/90">
-                Semoga website ini dapat memberikan manfaat dan menjadi jembatan transparansi serta pelayanan yang lebih baik.
-            </p>
-
-        </div>
-
-        <div class="mt-8 pt-6 border-t border-white/20">
-            <p class="text-blue-300 font-medium italic mb-4">
-                Wassalamu’alaikum warahmatullahi wabarakatuh.
-            </p>
-
-            <div class="flex items-center gap-4">
-                <div class="w-16 h-0.5 bg-blue-300"></div>
-                <div>
-                    <p class="font-bold text-lg text-white">Ervinna Hasdawaty, S.Pd</p>
-                    <p class="text-sm text-blue-300">Kepala SMP Negeri 38 Palembang</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-    </div>
-</section>
-
-    <!-- ========================================
-         PROFIL SEKOLAH
-         ======================================== -->
-    <section class="bg-[#DCEBFA] text-[#1D4E89] py-16 sm:py-20 md:py-24 font-poppins relative overflow-hidden">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6 relative z-10">
-
-            <!-- School Photo → MOBILE: atas (order-1), DESKTOP: kanan (lg:order-2) -->
-            <div class="flex justify-center order-1 lg:order-2" data-aos="fade-left" data-aos-delay="200">
-                <div
-                    class="relative bg-[#1D4E89] rounded-3xl p-4 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
-                    <img src="{{ asset('storage/logo/smp38palembang.jpg') }}" alt="SMP Negeri 38 Palembang"
-                        class="rounded-2xl w-full h-auto object-cover">
-                    <p class="text-white text-center text-lg font-semibold mt-4">
-                        SMP NEGERI 38 PALEMBANG
-                    </p>
-                </div>
-            </div>
-
-            <!-- Text Content → MOBILE: bawah (order-2), DESKTOP: kiri (lg:order-1) -->
-            <div data-aos="fade-right" class="space-y-6 text-center lg:text-left order-2 lg:order-1">
-                <span
-                    class="inline-flex items-center gap-2 bg-white text-[#1D4E89] px-4 py-2 rounded-full text-sm font-semibold shadow">
-                    ★ Sekolah Unggulan
-                </span>
-
-                <h2 class="text-4xl sm:text-5xl font-extrabold leading-tight">
-                    SMP NEGERI 38<br />PALEMBANG
-                </h2>
-
-                <div class="flex items-center justify-center lg:justify-start gap-3">
-                    <span class="w-12 h-1 bg-[#1D4E89] rounded-full"></span>
-                    <span class="w-8 h-1 bg-blue-400 rounded-full"></span>
-                    <span class="w-6 h-1 bg-blue-300 rounded-full"></span>
-                </div>
-
-                <p class="text-base sm:text-lg text-gray-700 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                    Sekolah menengah pertama negeri yang berkomitmen mencetak generasi unggul, berakhlak mulia, dan
-                    berprestasi dalam akademik maupun non-akademik.
-                </p>
-
-                <a href="/profile"
-                    class="inline-flex items-center gap-2 bg-[#1D4E89] hover:bg-[#163A63] text-white px-8 py-4 rounded-full shadow-lg transition-all duration-300 font-semibold hover:gap-3">
-                    Selengkapnya
-                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ========================================
-         EKSTRAKURIKULER
-         ======================================== -->
-    <section class="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-[#1D4E89] to-[#DBEDFF] relative overflow-hidden"
-        x-data="{
-            scrollLeft() { $refs.carousel.scrollBy({ left: -350, behavior: 'smooth' }) },
-                scrollRight() { $refs.carousel.scrollBy({ left: 350, behavior: 'smooth' }) }
-        }">
-
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white text-center mb-6 sm:mb-8 drop-shadow-lg"
-            data-aos="fade-up">
-            Kegiatan Ekstrakurikuler
-        </h2>
-
-        <!-- Left Navigation -->
-        <button @click="scrollLeft"
-            class="hidden lg:flex absolute left-6 top-1/2 -translate-y-1/2 bg-white text-[#1D4E89] p-3 rounded-full shadow-xl hover:scale-110 transition z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-
-        <!-- Carousel -->
-       <div x-ref="carousel"
-    class="max-w-7xl mx-auto flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory scroll-smooth pb-4 px-6 cursor-grab active:cursor-grabbing">
-
-    @foreach ($ekstrakurikulers as $index => $item)
-        <div class="flex-shrink-0 w-80 bg-white rounded-3xl  p-5 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl snap-center"
-            data-aos="zoom-in" data-aos-delay="{{ $index * 100 }}">
-
-            <!-- FOTO -->
-            <div class="rounded-2xl overflow-hidden h-56 mb-5 bg-white flex items-center justify-center">
-                <img src="{{ asset('storage/' . $item->foto) }}" 
-                    alt="{{ $item->nama_kegiatan }}"
-                    class="w-full h-full object-contain">
-            </div>
-
-            <!-- NAMA KEGIATAN -->
-            <div class="bg-[#1D4E89] text-white font-semibold text-lg rounded-full py-3 mb-4 text-center capitalize">
-                {{ $item->nama_kegiatan }}
-            </div>
-
-            <!-- DESKRIPSI RAPIH + SELENGKAPNYA -->
-            <div x-data="{ open: false }" class="text-center">
-
-                <!-- Deskripsi Pendek -->
-                <p x-show="!open"
-                   class="text-gray-700 leading-relaxed text-sm mt-2 min-h-[55px]">
-                    {{ Str::limit($item->deskripsi, 90) }}
-                </p>
-
-                <!-- Deskripsi Lengkap -->
-                <p x-show="open"
-                   x-transition
-                   class="text-gray-700 leading-relaxed text-sm mt-2">
-                    {{ $item->deskripsi }}
-                </p>
-
-                <!-- Tombol -->
-                <button 
-                    @click="open = !open"
-                    class="mt-3 text-blue-600 font-semibold text-sm hover:underline">
-                    <span x-show="!open">Lihat Selengkapnya</span>
-                    <span x-show="open">Tutup</span>
-                </button>
-            </div>
-
-        </div>
-    @endforeach
-</div>
-
-
-        <!-- Right Navigation -->
-        <button @click="scrollRight"
-            class="hidden lg:flex absolute right-6 top-1/2 -translate-y-1/2 bg-white text-[#1D4E89] p-3 rounded-full shadow-xl hover:scale-110 transition z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-    </section>
-
-    <!-- ========================================
-         KEUNGGULAN SEKOLAH
-         ======================================== -->
-    <section class="py-6 sm:py-8 md:py-10 bg-[#DBEDFF]">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-5 sm:mb-6 text-[#1D4E89]" data-aos="fade-up">
-                Keunggulan Sekolah
-            </h2>
-
-            <div class="bg-[#1D4E89] rounded-3xl px-8 sm:px-12 py-6 sm:py-8 shadow-2xl">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
-                    @foreach ([['icon' => 'sekolah.png', 'judul' => 'Sistem Smart School', 'deskripsi' => 'Sekolah kami mulai menerapkan Sistem Smart School sebagai upaya memanfaatkan teknologi dalam kegiatan sekolah.'], ['icon' => 'Terakreditasi A.png', 'judul' => 'Akreditasi A', 'deskripsi' => 'Sekolah kami berstatus Akreditasi A, yang menunjukkan kualitas pembelajaran, tenaga pendidik, serta pengelolaan sekolah yang sangat baik.'], ['icon' => 'kurikulum merdeka.png', 'judul' => 'Kurikulum Merdeka', 'deskripsi' => 'Sekolah kami menerapkan Kurikulum Merdeka yang menekankan kebebasan belajar, penguatan karakter, dan pengembangan potensi sesuai minat siswa.']] as $index => $card)
-                        <div data-aos="zoom-in" data-aos-delay="{{ $index * 150 }}"
-                            class="flex flex-col items-center text-center px-4 group">
-
-                            <div
-                                class="bg-white p-3 sm:p-4 rounded-2xl shadow-md mb-2 sm:mb-3 group-hover:scale-110 transition-transform duration-300">
-                                <img src="{{ asset('storage/sekolah/' . $card['icon']) }}" alt="{{ $card['judul'] }}"
-                                    class="w-12 h-12 sm:w-14 sm:h-14">
-                            </div>
-
-                            <h3 class="text-white font-bold text-base sm:text-lg mb-1 sm:mb-2">
-                                {{ $card['judul'] }}
-                            </h3>
-
-                            <p class="text-white/90 text-xs sm:text-sm leading-relaxed">
-                                {{ $card['deskripsi'] }}
+                        <div x-data="{ open: false }">
+                            <p class="text-gray-500 text-sm leading-relaxed" :class="open ? '' : 'line-clamp-3'">
+                                {{ $item->deskripsi }}
                             </p>
+                            <button @click="open = !open"
+                                class="mt-3 text-[#0077B6] font-semibold text-xs hover:text-[#023E8A] flex items-center gap-1 transition">
+                                <span x-text="open ? 'Tutup' : 'Selengkapnya'"></span>
+                                <svg class="w-3 h-3 transition-transform" :class="open ? 'rotate-180' : ''"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
+            @endforeach
+        </div>
+    </section>
+
+    <!-- =============================================
+         KEUNGGULAN SEKOLAH
+         ============================================= -->
+    <section class="py-20 sm:py-24 bg-white relative overflow-hidden">
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+
+            <!-- Header -->
+            <div class="text-center mb-14" data-aos="fade-up">
+                <span class="text-[#0077B6] text-xs font-bold tracking-[4px] uppercase mb-3 block">Mengapa Kami</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold text-[#023E8A]">Keunggulan Sekolah</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                @foreach ([
+                    ['icon' => 'sekolah.png',           'judul' => 'Lingkungan Kondusif', 'deskripsi' => 'Lingkungan belajar yang nyaman, asri, dan kondusif untuk mendukung semangat belajar siswa.', 'color' => '#0077B6'],
+                    ['icon' => 'Terakreditasi A.png',   'judul' => 'Akreditasi Terbaik',  'deskripsi' => 'Telah mendapatkan akreditasi yang menunjukkan kualitas pembelajaran dan pengelolaan sekolah yang sangat baik.', 'color' => '#023E8A'],
+                    ['icon' => 'kurikulum merdeka.png', 'judul' => 'Kurikulum Merdeka',   'deskripsi' => 'Menerapkan Kurikulum Merdeka yang menekankan kebebasan belajar dan penguatan karakter siswa.', 'color' => '#00B4D8'],
+                ] as $index => $card)
+                    <div class="card-hover group bg-white rounded-3xl p-8 border border-[#CAF0F8] shadow-sm"
+                        data-aos="fade-up" data-aos-delay="{{ $index * 120 }}">
+
+                        <!-- Icon circle -->
+                        <div class="w-16 h-16 rounded-2xl mb-6 flex items-center justify-center"
+                            style="background-color: {{ $card['color'] }}20;">
+                            <img src="{{ asset('storage/sekolah/' . $card['icon']) }}"
+                                alt="{{ $card['judul'] }}"
+                                class="w-9 h-9 object-contain">
+                        </div>
+
+                        <h3 class="font-bold text-[#023E8A] text-xl mb-3">{{ $card['judul'] }}</h3>
+                        <div class="w-8 h-1 rounded-full mb-4" style="background-color: {{ $card['color'] }};"></div>
+                        <p class="text-gray-500 text-sm leading-relaxed">{{ $card['deskripsi'] }}</p>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
 
-    <!-- ========================================
+    <!-- =============================================
          STATISTIK SEKOLAH
-         ======================================== -->
-    <section id="statistik-section" class="py-10 sm:py-12 md:py-14 bg-gradient-to-b from-[#DBEDFF] to-white">
-        <div class="container mx-auto text-center px-6">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-8 sm:mb-10 text-[#1D4E89]" data-aos="fade-up">
-                Statistik Sekolah
-            </h2>
+         ============================================= -->
+    <section id="statistik-section" class="py-20 sm:py-24 relative overflow-hidden"
+        style="background: linear-gradient(135deg, #023E8A 0%, #0077B6 50%, #00B4D8 100%);">
 
-            <div class="flex flex-wrap justify-center gap-6 sm:gap-8">
+        <div class="absolute inset-0 dot-grid opacity-20 pointer-events-none"></div>
+        <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/5 rounded-full pointer-events-none"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-white/5 rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
+
+            <!-- Header -->
+            <div class="text-center mb-14" data-aos="fade-up">
+                <span class="text-[#CAF0F8] text-xs font-bold tracking-[4px] uppercase mb-3 block">Data Sekolah</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold text-white">Statistik Sekolah</h2>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-10">
+
                 <!-- Guru -->
-                <div class="bg-[#1D4E89] rounded-full p-6 sm:p-8 flex flex-col items-center justify-center shadow-xl 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 
-                        hover:scale-110 hover:shadow-2xl transition duration-300"
+                <div class="stat-ring bg-white/10 backdrop-blur-md rounded-3xl p-8 text-center card-hover"
                     data-aos="zoom-in" data-aos-delay="100">
-                    <div class="bg-white rounded-full p-2 sm:p-3 mb-3 shadow-md">
-                        <img src="https://img.icons8.com/ios-filled/100/1D4E89/teacher.png"
-                            class="w-10 h-10 sm:w-14 sm:h-14">
+                    <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                        <img src="https://img.icons8.com/ios-filled/100/ffffff/teacher.png" alt="Guru" class="w-9 h-9">
                     </div>
-                    <span class="text-4xl sm:text-5xl font-extrabold text-white counter"
-                        data-target="{{ $statistik->guru ?? 0 }}">0</span>
-                    <span class="text-lg sm:text-xl text-white mt-1 sm:mt-2">Guru</span>
+                    <div class="text-5xl sm:text-6xl font-extrabold text-white counter mb-2"
+                        data-target="{{ $statistik->guru ?? 0 }}">0</div>
+                    <p class="text-[#CAF0F8] font-semibold text-lg">Guru</p>
+                    <p class="text-white/50 text-xs mt-1">Tenaga Pendidik</p>
                 </div>
 
-                <!-- Siswa -->
-                <div class="bg-[#1D4E89] rounded-full p-6 sm:p-8 flex flex-col items-center justify-center shadow-xl 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52
-                        hover:scale-110 hover:shadow-2xl transition duration-300"
+                <!-- Siswa — sedikit lebih besar di tengah -->
+                <div class="stat-ring bg-white/15 backdrop-blur-md rounded-3xl p-10 text-center card-hover sm:-mt-4 sm:mb-4"
                     data-aos="zoom-in" data-aos-delay="200">
-                    <div class="bg-white rounded-full p-2 sm:p-3 mb-3 shadow-md">
-                        <img src="https://img.icons8.com/ios-filled/100/1D4E89/student-male.png"
-                            class="w-10 h-10 sm:w-14 sm:h-14">
+                    <div class="bg-[#F4A261]/30 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                        <img src="https://img.icons8.com/ios-filled/100/ffffff/student-male.png" alt="Siswa" class="w-9 h-9">
                     </div>
-                    <span class="text-4xl sm:text-5xl font-extrabold text-white counter"
-                        data-target="{{ ($statistik->kelas7 ?? 0) + ($statistik->kelas8 ?? 0) + ($statistik->kelas9 ?? 0) }}">0</span>
-                    <span class="text-lg sm:text-xl text-white mt-1 sm:mt-2">Siswa</span>
+                    <div class="text-5xl sm:text-6xl font-extrabold text-white counter mb-2"
+                        data-target="{{ ($statistik->kelas7 ?? 0) + ($statistik->kelas8 ?? 0) + ($statistik->kelas9 ?? 0) }}">0</div>
+                    <p class="text-[#CAF0F8] font-semibold text-lg">Siswa</p>
+                    <p class="text-white/50 text-xs mt-1">Aktif Terdaftar</p>
                 </div>
 
                 <!-- Staf -->
-                <div class="bg-[#1D4E89] rounded-full p-6 sm:p-8 flex flex-col items-center justify-center shadow-xl 
-                        w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52
-                        hover:scale-110 hover:shadow-2xl transition duration-300"
+                <div class="stat-ring bg-white/10 backdrop-blur-md rounded-3xl p-8 text-center card-hover"
                     data-aos="zoom-in" data-aos-delay="300">
-                    <div class="bg-white rounded-full p-2 sm:p-3 mb-3 shadow-md">
-                        <img src="https://img.icons8.com/ios-filled/100/1D4E89/conference.png"
-                            class="w-10 h-10 sm:w-14 sm:h-14">
+                    <div class="bg-white/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5">
+                        <img src="https://img.icons8.com/ios-filled/100/ffffff/conference.png" alt="Staf" class="w-9 h-9">
                     </div>
-                    <span class="text-4xl sm:text-5xl font-extrabold text-white counter"
-                        data-target="{{ $statistik->staf ?? 0 }}">0</span>
-                    <span class="text-lg sm:text-xl text-white mt-1 sm:mt-2">Staf</span>
+                    <div class="text-5xl sm:text-6xl font-extrabold text-white counter mb-2"
+                        data-target="{{ $statistik->staf ?? 0 }}">0</div>
+                    <p class="text-[#CAF0F8] font-semibold text-lg">Staf</p>
+                    <p class="text-white/50 text-xs mt-1">Tenaga Kependidikan</p>
                 </div>
+
             </div>
         </div>
     </section>
 
+    <!-- Wave divider -->
+    <div class="wave-divider -mb-1" style="background: linear-gradient(135deg, #023E8A, #00B4D8);">
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#023E8A" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+    </div>
 
-    <!-- ========================================
-         SCRIPTS & STYLES
-         ======================================== -->
+
+    <!-- =============================================
+     FAQ
+     ============================================= -->
+<section class="py-20 sm:py-24 relative overflow-hidden bg-white">
+
+    <!-- Dekorasi -->
+    <div class="absolute top-10 left-10 w-64 h-64 border border-[#CAF0F8] rounded-full pointer-events-none"></div>
+    <div class="absolute bottom-10 right-10 w-48 h-48 border border-[#CAF0F8] rounded-full pointer-events-none"></div>
+    <div class="absolute inset-0 pointer-events-none"
+        style="background-image: radial-gradient(circle, #CAF0F8 1px, transparent 1px); background-size: 28px 28px; opacity: 0.5;"></div>
+
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Teks kiri -->
+        <div data-aos="fade-right">
+            <div class="inline-flex items-center gap-2 bg-[#CAF0F8] border border-[#90E0EF] text-[#0077B6] text-xs font-bold px-4 py-2 rounded-full mb-6">
+                <span class="w-2 h-2 bg-[#F4A261] rounded-full animate-pulse"></span>
+                FAQ
+            </div>
+
+            <h2 class="font-display text-4xl sm:text-5xl font-bold text-[#023E8A] leading-tight mb-6">
+                Pertanyaan yang<br>
+                Sering <span class="text-[#0077B6]">Ditanyakan</span>
+            </h2>
+
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-14 h-1 bg-[#F4A261] rounded-full"></span>
+                <span class="w-8 h-1 bg-[#00B4D8] rounded-full"></span>
+                <span class="w-4 h-1 bg-[#CAF0F8] rounded-full"></span>
+            </div>
+
+            <p class="text-gray-500 text-base max-w-md leading-relaxed">
+                Temukan jawaban atas pertanyaan umum seputar
+                <span class="font-semibold text-[#023E8A]">SMAN 1 Pesisir Tengah</span>.
+            </p>
+        </div>
+
+        <!-- Accordion FAQ kanan -->
+        <div class="space-y-3" data-aos="fade-left">
+
+            @php
+                $faqs = [
+                    ['q' => 'Apa itu SMAN 1 Pesisir Tengah?',           'a' => 'SMAN 1 Pesisir Tengah adalah sekolah menengah atas negeri di Kabupaten Pesisir Barat, Lampung yang berfokus pada pendidikan berkualitas dan pembentukan karakter siswa.'],
+                    ['q' => 'Apa saja fasilitas yang tersedia?',         'a' => 'Sekolah menyediakan ruang kelas nyaman, laboratorium, perpustakaan, lapangan olahraga, serta fasilitas pendukung pembelajaran lainnya.'],
+                    ['q' => 'Bagaimana cara mendaftar?',                'a' => 'Pendaftaran dapat dilakukan melalui jalur PPDB online sesuai jadwal yang ditetapkan oleh Dinas Pendidikan.'],
+                    ['q' => 'Apakah tersedia kegiatan ekstrakurikuler?', 'a' => 'Ya, tersedia berbagai kegiatan seperti olahraga, seni, pramuka, dan organisasi siswa.'],
+                    ['q' => 'Bagaimana sistem pembelajaran?',            'a' => 'SMAN 1 Pesisir Tengah menerapkan Kurikulum Merdeka dengan pendekatan pembelajaran aktif dan kreatif.'],
+                    ['q' => 'Apakah sekolah sudah terakreditasi?',       'a' => 'Ya, SMAN 1 Pesisir Tengah telah terakreditasi A sebagai bukti kualitas pendidikan yang tinggi.'],
+                ];
+            @endphp
+
+            @foreach ($faqs as $i => $faq)
+                <div x-data="{ open: false }"
+                    class="border border-[#CAF0F8] rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
+                    :class="open ? 'border-[#00B4D8] shadow-md' : 'hover:border-[#90E0EF]'">
+
+                    <!-- Pertanyaan -->
+                    <button @click="open = !open"
+                        class="w-full flex items-center justify-between text-left px-6 py-4 gap-4 transition"
+                        :class="open ? 'bg-[#CAF0F8]' : 'bg-white hover:bg-[#f0fafd]'">
+
+                        <div class="flex items-center gap-4">
+                            <span class="text-[#00B4D8] text-xs font-bold tabular-nums flex-shrink-0">
+                                {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}
+                            </span>
+                            <span class="text-[#023E8A] font-semibold text-sm sm:text-base">{{ $faq['q'] }}</span>
+                        </div>
+
+                        <div class="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full border transition"
+                            :class="open ? 'bg-[#0077B6] border-[#0077B6] text-white' : 'border-[#90E0EF] text-[#0077B6]'">
+                            <svg :class="open ? 'rotate-180' : ''"
+                                class="w-4 h-4 transition-transform duration-300"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </button>
+
+                    <!-- Jawaban -->
+                    <div x-show="open"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 -translate-y-1"
+                        x-transition:enter-end="opacity-100 translate-y-0"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 translate-y-0"
+                        x-transition:leave-end="opacity-0 -translate-y-1"
+                        class="px-6 pb-5 pt-4 ml-8 text-gray-500 text-sm leading-relaxed border-t border-[#CAF0F8]">
+                        {{ $faq['a'] }}
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
+    </div>
+</section>
+
+    {{-- <!-- Wave bottom -->
+    <div class="wave-divider -mt-1" style="background: linear-gradient(135deg, #023E8A, #00B4D8);">
+        <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#f8fafc" d="M0,30 C480,60 960,0 1440,30 L1440,60 L0,60 Z"/>
+        </svg>
+    </div> --}}
+
+    <!-- =============================================
+         SCRIPTS
+         ============================================= -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100,
-            easing: 'ease-in-out'
-        });
+        AOS.init({ duration: 750, once: true, offset: 80, easing: 'ease-out-cubic' });
 
-        // Counter Animation
         document.addEventListener("DOMContentLoaded", () => {
             const counters = document.querySelectorAll(".counter");
-            const speed = 60;
             let animated = false;
+            const speed = 60;
 
-            const animateCounters = () => {
+            const run = () => {
                 counters.forEach(counter => {
-                    const updateCount = () => {
-                        const target = +counter.getAttribute("data-target");
-                        const count = +counter.innerText;
-                        const increment = Math.ceil(target / speed);
-
-                        if (count < target) {
-                            counter.innerText = count + increment;
-                            setTimeout(updateCount, 20);
+                    const target = +counter.getAttribute("data-target");
+                    const step = () => {
+                        const current = +counter.innerText;
+                        const inc = Math.ceil(target / speed);
+                        if (current < target) {
+                            counter.innerText = Math.min(current + inc, target);
+                            setTimeout(step, 20);
                         } else {
                             counter.innerText = target;
                         }
                     };
-                    updateCount();
+                    step();
                 });
             };
 
-            const section = document.querySelector("#statistik-section");
-            const observer = new IntersectionObserver((entries) => {
+            const observer = new IntersectionObserver(entries => {
                 if (entries[0].isIntersecting && !animated) {
-                    animateCounters();
                     animated = true;
+                    run();
                 }
-            }, {
-                threshold: 0.5
-            });
+            }, { threshold: 0.4 });
 
-            observer.observe(section);
+            const statsSection = document.querySelector("#statistik-section");
+            if (statsSection) observer.observe(statsSection);
         });
     </script>
 
-    <style>
-        /* Hide scrollbar */
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* Smooth transitions */
-        * {
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 640px) {
-            .animate-float {
-                animation: float 4s ease-in-out infinite;
-            }
-        }
-    </style>
 @endsection
