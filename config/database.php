@@ -54,10 +54,15 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? [
-                PDO::MYSQL_ATTR_SSL_CA => true,
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-            ] : [],
+            'options' => extension_loaded('pdo_mysql') ? (
+                version_compare(PHP_VERSION, '8.5.0', '>=') ? [
+                    Pdo\Mysql::ATTR_SSL_CA => true,
+                    Pdo\Mysql::ATTR_SSL_VERIFY_SERVER_CERT => false,
+                ] : [
+                    PDO::MYSQL_ATTR_SSL_CA => true,
+                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+                ]
+            ) : [],
         ],
 
         'mariadb' => [
@@ -75,9 +80,13 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+            'options' => extension_loaded('pdo_mysql') ? array_filter(
+                version_compare(PHP_VERSION, '8.5.0', '>=') ? [
+                    Pdo\Mysql::ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                ] : [
+                    PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+                ]
+            ) : [],
         ],
 
         'pgsql' => [
