@@ -11,5 +11,9 @@
 |
 */
 
+// Matikan tampilan error deprecation dari PHP 8.5 di layar
+ini_set('display_errors', '0');
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 // Forward semua request ke Laravel's public/index.php
 require __DIR__ . '/../public/index.php';
