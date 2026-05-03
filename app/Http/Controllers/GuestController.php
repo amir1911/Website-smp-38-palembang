@@ -26,7 +26,7 @@ class GuestController extends Controller
         $image = str_replace('data:image/png;base64,', '', $request->foto);
         $image = str_replace(' ', '+', $image);
         $imageName = 'guest-' . time() . '.png';
-        Storage::disk('public')->put('guests/' . $imageName, base64_decode($image));
+        Storage::put('guests/' . $imageName, base64_decode($image));
 
         Guest::create([
             'nama' => $request->nama,

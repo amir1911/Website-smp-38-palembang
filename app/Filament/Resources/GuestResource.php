@@ -49,7 +49,7 @@ class GuestResource extends Resource
                     ->label('Foto')
                     ->image()
                     ->directory('guests')
-                    ->disk('public')
+
                     ->imagePreviewHeight('150'),
             ]);
     }
@@ -66,7 +66,7 @@ class GuestResource extends Resource
             ->columns([
                 ImageColumn::make('foto')
                     ->label('Foto')
-                    ->disk('public')
+
                     ->square()
                     ->height(80)
                     ->width(80),

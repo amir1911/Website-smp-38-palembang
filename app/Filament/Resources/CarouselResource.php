@@ -26,7 +26,7 @@ protected static ?string $modelLabel = 'Carousel';
                 Forms\Components\FileUpload::make('gambar')
                     ->label('Foto Carousel')
                     ->directory('carousel')
-                    ->disk('public')
+
                     ->visibility('public')        // penting agar public URL dapat diakses
                     ->image()
                     // ->imageEditor()            // aktifkan kalau Filament versi kamu mendukung
