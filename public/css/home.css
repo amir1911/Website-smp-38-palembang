@@ -23,8 +23,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(117, 134, 80, 0.3); } /* Olive Green */
-  50%       { box-shadow: 0 0 40px rgba(117, 134, 80, 0.6); } /* Olive Green */
+  0%, 100% { box-shadow: 0 0 20px rgba(49, 92, 133, 0.3); } /* Slate Blue */
+  50%       { box-shadow: 0 0 40px rgba(49, 92, 133, 0.6); } /* Slate Blue */
 }
 
 @keyframes gradient-shift {
@@ -48,9 +48,9 @@
 .text-gradient {
   background: linear-gradient(
     135deg,
-    #B5C267 0%,   /* Light Green */
-    #758650 50%,  /* Olive Green */
-    #4A5435 100%  /* Deep Olive */
+    #4a81b8 0%,   /* Light Slate Blue */
+    #315c85 50%,  /* Slate Blue */
+    #23425f 100%  /* Deep Slate Blue */
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -62,11 +62,11 @@
    ============================================ */
 
 :root {
-  --green-dark:  #4A5435;  /* Deep Olive  → ganti --blue-dark  */
-  --green-main:  #758650;  /* Olive Green → ganti --blue-main  */
-  --green-light: #B5C267;  /* Light Green → ganti --blue-light */
+  --green-dark:  #23425f;  /* Deep Slate Blue */
+  --green-main:  #315c85;  /* Slate Blue */
+  --green-light: #4a81b8;  /* Light Slate Blue */
   --golden:      #E8B634;  /* Golden Yellow (bonus CP5) */
   --pale-yellow: #FFE27C;  /* Pale Yellow  (bonus CP5) */
-  --sand:        #C9B6A1;  /* Sand Beige   (bonus CP5) */
-  --off-white:   #F8F9F8;  /* Off White    (bonus CP5) */
+  --sand:        #d1d5db;  /* Cool Gray   (bonus CP5) */
+  --off-white:   #f4f7f9;  /* Off White Blue    (bonus CP5) */
 }

@@ -71,7 +71,7 @@
                 <span class="w-4 h-1 bg-white/30 rounded-full"></span>
             </div>
             <p class="text-[#CAF0F8] text-sm sm:text-base mt-4 max-w-lg leading-relaxed fade-up fade-up-d4">
-                Jelajahi koleksi momen terbaik SMP Negeri 38 Palembang.
+                Jelajahi koleksi momen terbaik SMA Negeri 1 Pesisir Tengah.
             </p>
 
             {{-- Filter Kategori --}}

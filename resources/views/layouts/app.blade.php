@@ -165,119 +165,124 @@
     <div id="cursor-glow"></div>
 
   {{-- ===== SPLASH SCREEN PREMIUM ===== --}}
-<div id="splash-screen"
-    class="fixed inset-0 z-[99999] flex items-center justify-center overflow-hidden bg-[#020617]">
+<div id="splash-screen" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center overflow-hidden bg-[#0a0f1c] transition-opacity duration-700">
+    
+    {{-- Decorative Background Elements --}}
+    <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#0077B6]/20 blur-[120px] animate-pulse-slow pointer-events-none"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#00B4D8]/20 blur-[150px] animate-pulse-slow delay-700 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNCkiLz48L3N2Zz4=')] opacity-50 pointer-events-none"></div>
 
-    {{-- Background gradient glow --}}
-    <div class="absolute w-[600px] h-[600px] bg-[#00B4D8]/20 rounded-full blur-[140px] top-[-200px] left-[-200px]"></div>
-    <div class="absolute w-[500px] h-[500px] bg-[#0077B6]/20 rounded-full blur-[120px] bottom-[-150px] right-[-150px]"></div>
-
-    {{-- Grid subtle --}}
-    <div class="absolute inset-0 opacity-[0.04]"
-        style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 30px 30px;">
-    </div>
-
-    {{-- Content --}}
-    <div class="relative z-10 flex flex-col items-center text-center animate-fadeUp">
-
-        {{-- Logo --}}
-        <div class="relative mb-8">
-            <div class="absolute inset-0 rounded-3xl bg-[#00B4D8]/20 blur-xl"></div>
-
-            <div class="relative w-24 h-24 rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center shadow-2xl animate-float">
-                <img src="{{ asset('storage/logo/logo sma.png') }}"
-                     class="w-14 h-14 object-contain">
+    {{-- Main Content Container --}}
+    <div class="relative z-10 flex flex-col items-center">
+        {{-- Logo Container with Rings --}}
+        <div class="relative flex items-center justify-center mb-8">
+            {{-- Animated Rings --}}
+            <div class="absolute w-32 h-32 border border-[#00B4D8]/30 rounded-full animate-[spin_4s_linear_infinite]"></div>
+            <div class="absolute w-40 h-40 border border-dashed border-[#0077B6]/30 rounded-full animate-[spin_7s_linear_infinite_reverse]"></div>
+            
+            {{-- Logo Core --}}
+            <div class="relative w-24 h-24 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_0_30px_rgba(0,180,216,0.2)] flex items-center justify-center overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                <img src="{{ asset('storage/logo/logo sma.png') }}" alt="Logo SMAN 1 Pesisir Tengah" class="w-16 h-16 object-contain drop-shadow-2xl animate-[scaleUp_1s_ease-out_forwards]">
             </div>
         </div>
 
-        {{-- Nama Sekolah --}}
-        <h1 class="text-white text-3xl sm:text-4xl font-bold tracking-wide leading-tight"
-            style="font-family: 'Playfair Display', serif;">
-            SMAN 1 Pesisir Tengah
-        </h1>
-
-       
-
-        {{-- Divider elegan --}}
-        <div class="w-16 h-[2px] bg-gradient-to-r from-transparent via-[#00B4D8] to-transparent my-6"></div>
-
-        {{-- Loading bar --}}
-        <div class="w-56 h-[5px] bg-white/10 rounded-full overflow-hidden">
-            <div id="splash-bar"
-                class="h-full bg-gradient-to-r from-[#00E5FF] via-[#00B4D8] to-[#48CAE4] rounded-full w-0 transition-all duration-300"></div>
+        {{-- Typography --}}
+        <div class="text-center overflow-hidden">
+            <h1 class="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#00B4D8] to-white tracking-wider mb-2 animate-[slideUp_0.8s_ease-out_0.2s_both]" style="font-family: 'Playfair Display', serif;">
+                SMAN 1 Pesisir Tengah
+            </h1>
+            <p class="text-blue-200/60 text-xs md:text-sm tracking-[0.3em] font-light uppercase animate-[slideUp_0.8s_ease-out_0.4s_both]">
+                Membangun Generasi Unggul
+            </p>
         </div>
 
-        {{-- Loading text --}}
-        {{-- <p id="loading-text"
-           class="text-white/50 text-xs tracking-[3px] uppercase mt-4 animate-pulse">
-           Initializing System...
-        </p> --}}
-
+        {{-- Progress Indicator --}}
+        <div class="mt-12 flex flex-col items-center animate-[fadeIn_1s_ease-out_0.8s_both]">
+            <div class="w-56 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+                <div id="splash-progress" class="absolute top-0 left-0 h-full w-0 bg-gradient-to-r from-[#00B4D8] to-[#023E8A] shadow-[0_0_10px_#00B4D8]"></div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <span id="splash-percentage" class="text-[#00B4D8] text-[10px] md:text-xs font-mono font-medium tracking-widest">0%</span>
+            </div>
+        </div>
     </div>
 </div>
 
 <style>
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px);}
-    to { opacity: 1; transform: translateY(0);}
+@keyframes pulse-slow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
 }
-.animate-fadeUp {
-    animation: fadeUp 1s ease forwards;
+.animate-pulse-slow {
+    animation: pulse-slow 6s ease-in-out infinite;
 }
-
-@keyframes float {
-    0%,100% { transform: translateY(0);}
-    50% { transform: translateY(-10px);}
+.delay-700 {
+    animation-delay: 0.7s;
 }
-.animate-float {
-    animation: float 3s ease-in-out infinite;
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 </style>
 
 <script>
-const splash = document.getElementById('splash-screen');
-const bar = document.getElementById('splash-bar');
-const text = document.getElementById('loading-text');
+document.addEventListener("DOMContentLoaded", () => {
+    const splash = document.getElementById('splash-screen');
+    const progressBar = document.getElementById('splash-progress');
+    const percentageText = document.getElementById('splash-percentage');
 
-if (sessionStorage.getItem('splashShown')) {
-    splash.style.display = 'none';
-} else {
-    sessionStorage.setItem('splashShown', 'true');
-    document.body.style.overflow = 'hidden';
+    // Cek apakah splash screen sudah ditampilkan di sesi ini
+    if (!sessionStorage.getItem('splashShown')) {
+        sessionStorage.setItem('splashShown', 'true');
+        document.body.style.overflow = 'hidden';
 
-    let progress = 0;
+        let progress = 0;
+        
+        // Fungsi easing untuk animasi loading yang lebih natural (cepat di awal, melambat di akhir)
+        const easeOutQuad = t => t * (2 - t);
+        let startTime = null;
+        const duration = 2000; // Durasi splash screen (2 detik)
 
-    // const messages = [
-    //     "Initializing System...",
-    //     "Loading Data...",
-    //     "Preparing Interface...",
-    //     "Almost Ready..."
-    // ];
-
-    let i = 0;
-
-    const interval = setInterval(() => {
-        progress += 5;
-        bar.style.width = progress + "%";
-
-        if (progress % 25 === 0 && i < messages.length) {
-            text.innerText = messages[i++];
-        }
-
-        if (progress >= 100) {
-            clearInterval(interval);
-
-            setTimeout(() => {
-                splash.style.opacity = '0';
+        const updateProgress = (timestamp) => {
+            if (!startTime) startTime = timestamp;
+            const runtime = timestamp - startTime;
+            let relativeProgress = runtime / duration;
+            
+            if (relativeProgress < 1) {
+                progress = Math.min(easeOutQuad(relativeProgress) * 100, 100);
+                progressBar.style.width = progress + '%';
+                percentageText.innerText = Math.round(progress) + '%';
+                requestAnimationFrame(updateProgress);
+            } else {
+                progressBar.style.width = '100%';
+                percentageText.innerText = '100%';
+                
+                // Selesaikan animasi dan hilangkan splash screen perlahan
                 setTimeout(() => {
-                    splash.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }, 700);
-            }, 500);
-        }
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        document.body.style.overflow = 'auto'; // Kembalikan scroll
+                    }, 700); // Tunggu sampai transisi opacity selesai
+                }, 400); // Jeda sedikit di angka 100%
+            }
+        };
 
-    }, 120);
-}
+        requestAnimationFrame(updateProgress);
+    } else {
+        // Jika sudah pernah muncul, sembunyikan langsung
+        splash.style.display = 'none';
+    }
+});
 </script>
 
     <!-- ====================== NAVBAR ====================== -->

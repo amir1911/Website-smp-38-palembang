@@ -1,11 +1,11 @@
 :root {
-    --primary:        #758650;  /* Olive Green */
-    --primary-dark:   #4A5435;  /* Deep Olive */
-    --primary-light:  #B5C267;  /* Light Green */
-    --primary-subtle: #F8F9F8;  /* Off White */
+    --primary:        #315c85;  /* Slate Blue */
+    --primary-dark:   #23425f;  /* Deep Slate Blue */
+    --primary-light:  #4a81b8;  /* Light Slate Blue */
+    --primary-subtle: #f4f7f9;  /* Off White Blue */
     --accent:         #E8B634;  /* Golden Yellow */
     --accent-light:   #FFE27C;  /* Pale Yellow */
-    --neutral:        #C9B6A1;  /* Sand / Warm Beige */
+    --neutral:        #d1d5db;  /* Cool Gray */
 }
 
 .bg-primary {
@@ -42,7 +42,7 @@ a, button {
 }
 
 .hover-glow:hover {
-    box-shadow: 0 0 20px rgba(117, 134, 80, 0.4); /* Olive Green rgba */
+    box-shadow: 0 0 20px rgba(49, 92, 133, 0.4); /* Slate Blue rgba */
 }
 
 /* Navbar Scrolled Effect */
@@ -76,7 +76,7 @@ a, button {
     height: 20px;
     pointer-events: none;
     border-radius: 9999px;
-    background: rgba(117, 134, 80, 0.4); /* Olive Green rgba */
+    background: rgba(49, 92, 133, 0.4); /* Slate Blue rgba */
     transform: translate(-50%, -50%) scale(0);
     animation: ripple-soft 0.6s ease-out forwards;
     z-index: 999999;
