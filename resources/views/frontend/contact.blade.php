@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
 <style>
-    .font-display { font-family: 'Playfair Display', serif; }
-    .font-body    { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .dot-grid {
+   font  family {
+        --font display { font-family: 'playfair display', sertif; }
+   {
         background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px);
         background-size: 24px 24px;
     }
@@ -18,7 +18,7 @@
         background-image: repeating-linear-gradient(
             -45deg, transparent, transparent 10px,
             rgba(255,255,255,0.03) 10px, rgba(255,255,255,0.03) 20px
-        );
+        );5
     }
     @keyframes fadeUp {
         from { opacity:0; transform:translateY(24px); }
